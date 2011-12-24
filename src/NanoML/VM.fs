@@ -1,13 +1,24 @@
-
 module NanoML.VirtualMachine
 
 open NanoML.Utils
 
+
 exception RuntimeError of string
+
 
 type name = Compiler.Ast.name
 
-type mvalue =
+
+type frame = instr list
+
+
+and env = (name * ref<mvalue>) list
+
+
+and stack = mvalue list
+
+
+and mvalue =
     | MInt of int
     | MFloat of float
     | MBool of bool
@@ -43,60 +54,61 @@ and instr =
     | IPopEnv
 
 
-and frame = instr list
-
-
-and env = (name * ref<mvalue>) list
-
-
-and stack = mvalue list
-
 
 let error msg = raise (RuntimeError msg)
 
+/// Gets machine value binded to name x
 let lookup x = function
       env :: _ -> match List.assoc x env with Some v -> v | _ -> error ("unknown" + string x)
     | _ -> error ("unknown" + string x)
 
+/// Pop top machine value from stack
 let pop = function
       [] -> error "empty stack"
-    | v :: s -> (v, s)
+    | value :: stack-> value, stack
 
+/// Pop boolean value from top of stack
 let popBool = function
-      MBool b :: s -> (b, s)
+      MBool b :: stack -> b, stack
     | _ -> error "bool expected"
 
+/// Pop machine value and function which applied to poped value
 let popApp = function
-      v :: MClosure (x, f, e) :: s -> (x, f , e, v, s)
+      arg :: MClosure (name, code, env) :: stack -> (name, code, env, arg, stack)
     | _ -> error "value and closure expected"
 
 
-/// Arithmetical operations.
+/// Pop two values from stack, multipy them, and push result back to stack
 let mult = function
       MInt x :: MInt y :: s -> MInt (x * y) :: s
     | MFloat x :: MFloat y :: s -> MFloat (x * y) :: s
     | _ -> error "Float and Float or Int and Int expected"
 
+/// Pop two values from stack, add them, and push result back to stack
 let add = function
       MInt x :: MInt y :: s -> MInt (x + y) :: s
     | MFloat x :: MFloat y :: s -> MFloat (x + y) :: s
     | _ -> error "Float and Float or Int and Int expected"
-    
+
+/// Pop two values from stack, sub first value from second, and push result back to stack
 let sub = function
       MInt x :: MInt y :: s -> MInt (y - x) :: s
     | MFloat x :: MFloat y :: s -> MFloat (y - x) :: s
     | _ -> error "Float and Float or Int and Int expected"
 
+/// Pop two values from stack, div second value by first, and push result back to stack
 let div = function
       MInt x :: MInt y :: s -> MInt (y / x) :: s
     | MFloat x :: MFloat y :: s -> MFloat (y / x) :: s
     | _ -> error "Float and Float or Int and Int expected"   
- 
+
+/// Pop two values from stack, multipy them, and push result back to stack
 let eq = function
       MInt x :: MInt y :: s -> MBool (y = x) :: s
     | MFloat x :: MFloat y :: s -> MBool (y = x) :: s
     | _ -> error "Float and Float or Int and Int expected"    
 
+/// Pop two values from stack, check if second less than first, and push result back to stack
 let less = function
       MInt x :: MInt y :: s -> MBool (y < x) :: s
     | MFloat x :: MFloat y :: s -> MBool (y < x) :: s

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NanoML", "NanoML.fsproj", "{D4A11AC6-814A-48CE-8B25-524D3747FF74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4A11AC6-814A-48CE-8B25-524D3747FF74}.Debug|x86.ActiveCfg = Debug|x86
+		{D4A11AC6-814A-48CE-8B25-524D3747FF74}.Debug|x86.Build.0 = Debug|x86
+		{D4A11AC6-814A-48CE-8B25-524D3747FF74}.Release|x86.ActiveCfg = Release|x86
+		{D4A11AC6-814A-48CE-8B25-524D3747FF74}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

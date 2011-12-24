@@ -1,0 +1,1 @@
+fslex ../src/NanoML/NanoMLLexer.fsl --unicode

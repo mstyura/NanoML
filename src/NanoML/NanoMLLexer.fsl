@@ -1,9 +1,12 @@
 {
 module NanoML.Compiler.Lexer
 open Microsoft.FSharp.Text
+open Microsoft.FSharp.Text.Lexing
 open NanoML.Compiler.Parser
 
+
 let lexeme = LexBuffer<_>.LexemeString
+
 
 let keywords =
     [ "if", IF
@@ -15,32 +18,35 @@ let keywords =
       "bool", TBOOL
       "is", IS
       "let", LET
-      "true", TRUE]
+      "true", TRUE
+      "false", FALSE ]
 
 let kwdMap = keywords |> Map.ofList
 
 let ident id =
-    match kwdMap id kwdMap with
-    | Some v -> v | _ -> Var id
+    match Map.tryFind id kwdMap with
+    | Some v -> v | _ -> VAR id
 
 }
 
 let ident = ['a' - 'z' 'A' - 'Z']+
 let newline = '\n' | '\r' '\n'
 let whitespace = [' ' '\t']
-let digit = ['0' - '9']
+let digit = '\Nd'
 let integer = digit+
-let float = digit+ ('.' digit* )? ('e'| 'E') ['+' '-']? digit+
+let floatp = digit+ '.' digit*  
+let floate = digit+ ('.' digit* )? ('e'| 'E') ['+' '-']? digit+
+let float = floatp | floate 
 
 rule token = parse
       whitespace { token lexbuf }
-    | newline { lexbuf.EndPos <- lexeme.EndPos.NextLine; token lexbuf }
+    | newline { lexbuf.EndPos <- lexbuf.EndPos.NextLine; token lexbuf }
     | ident { ident (lexeme lexbuf) }
-    | integer { System.Int32.Parse(lexeme lexbuf) }
-    | float { System.Double.Parse(lexeme lexbuf) }
+    | integer { INT(System.Int32.Parse(lexeme lexbuf)) }
+    | float { FLOAT(System.Double.Parse(lexeme lexbuf)) }
     | "->" { TARROW }
     | ";;" { SEMICOLON2 }
-    | '=' { EQUALS }
+    | '=' { EQUAL }
     | '<' { LESS }
     | ':' { COLON }
     | '(' { LPAREN }
@@ -48,6 +54,5 @@ rule token = parse
     | '+' { PLUS }
     | '-' { MINUS }
     | '/' { DIVIDE }
-    | '*' { MULTIPY }
+    | '*' { TIMES }
     | eof { EOF }
-    

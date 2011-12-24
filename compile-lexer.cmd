@@ -1,1 +1,0 @@
-fslex NanoMLLexer.fsl --unicode
