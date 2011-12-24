@@ -1,0 +1,2837 @@
+Output file describing compiled parser placed in NanoMLParser.fs and NanoMLParser.fsi
+------------------------
+states = 
+state 0:
+  items:
+    _starttoplevel ->  . toplevel
+
+  actions:
+    action 'EOF' (noprec):   shift 2
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   shift 13
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto toplevel: 1
+    goto def: 5
+    goto expr: 8
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 1:
+  items:
+    _starttoplevel -> toplevel . 
+
+  actions:
+    action 'EOF' (noprec):   accept
+    action 'SEMICOLON2' (noprec):   accept
+    action 'LET' (noprec):   accept
+    action 'LPAREN' (noprec):   accept
+    action 'RPAREN' (noprec):   accept
+    action 'COLON' (noprec):   accept
+    action 'FUN' (noprec):   accept
+    action 'IS' (noprec):   accept
+    action 'IF' (noprec):   accept
+    action 'THEN' (noprec):   accept
+    action 'ELSE' (noprec):   accept
+    action 'EQUAL' (noprec):   accept
+    action 'LESS' (noprec):   accept
+    action 'PLUS' (noprec):   accept
+    action 'MINUS' (noprec):   accept
+    action 'TIMES' (noprec):   accept
+    action 'DIVIDE' (noprec):   accept
+    action 'TRUE' (noprec):   accept
+    action 'FALSE' (noprec):   accept
+    action 'BOOL' (noprec):   accept
+    action 'FLOAT' (noprec):   accept
+    action 'INT' (noprec):   accept
+    action 'VAR' (noprec):   accept
+    action 'TARROW' (noprec):   accept
+    action 'TBOOL' (noprec):   accept
+    action 'TFLOAT' (noprec):   accept
+    action 'TINT' (noprec):   accept
+    action 'error' (noprec):   accept
+    action '#' (noprec):   accept
+    action '$$' (noprec):   accept
+
+  immediate action:   accept
+ gotos:
+
+state 2:
+  items:
+    toplevel -> 'EOF' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce toplevel --> 'EOF'
+    action 'SEMICOLON2' (noprec):   reduce toplevel --> 'EOF'
+    action 'LET' (noprec):   reduce toplevel --> 'EOF'
+    action 'LPAREN' (noprec):   reduce toplevel --> 'EOF'
+    action 'RPAREN' (noprec):   reduce toplevel --> 'EOF'
+    action 'COLON' (noprec):   reduce toplevel --> 'EOF'
+    action 'FUN' (noprec):   reduce toplevel --> 'EOF'
+    action 'IS' (noprec):   reduce toplevel --> 'EOF'
+    action 'IF' (noprec):   reduce toplevel --> 'EOF'
+    action 'THEN' (noprec):   reduce toplevel --> 'EOF'
+    action 'ELSE' (noprec):   reduce toplevel --> 'EOF'
+    action 'EQUAL' (noprec):   reduce toplevel --> 'EOF'
+    action 'LESS' (noprec):   reduce toplevel --> 'EOF'
+    action 'PLUS' (noprec):   reduce toplevel --> 'EOF'
+    action 'MINUS' (noprec):   reduce toplevel --> 'EOF'
+    action 'TIMES' (noprec):   reduce toplevel --> 'EOF'
+    action 'DIVIDE' (noprec):   reduce toplevel --> 'EOF'
+    action 'TRUE' (noprec):   reduce toplevel --> 'EOF'
+    action 'FALSE' (noprec):   reduce toplevel --> 'EOF'
+    action 'BOOL' (noprec):   reduce toplevel --> 'EOF'
+    action 'FLOAT' (noprec):   reduce toplevel --> 'EOF'
+    action 'INT' (noprec):   reduce toplevel --> 'EOF'
+    action 'VAR' (noprec):   reduce toplevel --> 'EOF'
+    action 'TARROW' (noprec):   reduce toplevel --> 'EOF'
+    action 'TBOOL' (noprec):   reduce toplevel --> 'EOF'
+    action 'TFLOAT' (noprec):   reduce toplevel --> 'EOF'
+    action 'TINT' (noprec):   reduce toplevel --> 'EOF'
+    action 'error' (noprec):   reduce toplevel --> 'EOF'
+    action '#' (noprec):   reduce toplevel --> 'EOF'
+    action '$$' (noprec):   reduce toplevel --> 'EOF'
+
+  immediate action:   reduce toplevel --> 'EOF'
+ gotos:
+
+state 3:
+  items:
+    toplevel -> 'EOF' . 
+    toplevel -> def 'SEMICOLON2' 'EOF' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce toplevel --> 'EOF'
+    action 'SEMICOLON2' (noprec):   reduce toplevel --> 'EOF'
+    action 'LET' (noprec):   reduce toplevel --> 'EOF'
+    action 'LPAREN' (noprec):   reduce toplevel --> 'EOF'
+    action 'RPAREN' (noprec):   reduce toplevel --> 'EOF'
+    action 'COLON' (noprec):   reduce toplevel --> 'EOF'
+    action 'FUN' (noprec):   reduce toplevel --> 'EOF'
+    action 'IS' (noprec):   reduce toplevel --> 'EOF'
+    action 'IF' (noprec):   reduce toplevel --> 'EOF'
+    action 'THEN' (noprec):   reduce toplevel --> 'EOF'
+    action 'ELSE' (noprec):   reduce toplevel --> 'EOF'
+    action 'EQUAL' (noprec):   reduce toplevel --> 'EOF'
+    action 'LESS' (noprec):   reduce toplevel --> 'EOF'
+    action 'PLUS' (noprec):   reduce toplevel --> 'EOF'
+    action 'MINUS' (noprec):   reduce toplevel --> 'EOF'
+    action 'TIMES' (noprec):   reduce toplevel --> 'EOF'
+    action 'DIVIDE' (noprec):   reduce toplevel --> 'EOF'
+    action 'TRUE' (noprec):   reduce toplevel --> 'EOF'
+    action 'FALSE' (noprec):   reduce toplevel --> 'EOF'
+    action 'BOOL' (noprec):   reduce toplevel --> 'EOF'
+    action 'FLOAT' (noprec):   reduce toplevel --> 'EOF'
+    action 'INT' (noprec):   reduce toplevel --> 'EOF'
+    action 'VAR' (noprec):   reduce toplevel --> 'EOF'
+    action 'TARROW' (noprec):   reduce toplevel --> 'EOF'
+    action 'TBOOL' (noprec):   reduce toplevel --> 'EOF'
+    action 'TFLOAT' (noprec):   reduce toplevel --> 'EOF'
+    action 'TINT' (noprec):   reduce toplevel --> 'EOF'
+    action 'error' (noprec):   reduce toplevel --> 'EOF'
+    action '#' (noprec):   reduce toplevel --> 'EOF'
+    action '$$' (noprec):   reduce toplevel --> 'EOF'
+
+  immediate action: <none>
+ gotos:
+
+state 4:
+  items:
+    toplevel -> 'EOF' . 
+    toplevel -> expr 'SEMICOLON2' 'EOF' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce toplevel --> 'EOF'
+    action 'SEMICOLON2' (noprec):   reduce toplevel --> 'EOF'
+    action 'LET' (noprec):   reduce toplevel --> 'EOF'
+    action 'LPAREN' (noprec):   reduce toplevel --> 'EOF'
+    action 'RPAREN' (noprec):   reduce toplevel --> 'EOF'
+    action 'COLON' (noprec):   reduce toplevel --> 'EOF'
+    action 'FUN' (noprec):   reduce toplevel --> 'EOF'
+    action 'IS' (noprec):   reduce toplevel --> 'EOF'
+    action 'IF' (noprec):   reduce toplevel --> 'EOF'
+    action 'THEN' (noprec):   reduce toplevel --> 'EOF'
+    action 'ELSE' (noprec):   reduce toplevel --> 'EOF'
+    action 'EQUAL' (noprec):   reduce toplevel --> 'EOF'
+    action 'LESS' (noprec):   reduce toplevel --> 'EOF'
+    action 'PLUS' (noprec):   reduce toplevel --> 'EOF'
+    action 'MINUS' (noprec):   reduce toplevel --> 'EOF'
+    action 'TIMES' (noprec):   reduce toplevel --> 'EOF'
+    action 'DIVIDE' (noprec):   reduce toplevel --> 'EOF'
+    action 'TRUE' (noprec):   reduce toplevel --> 'EOF'
+    action 'FALSE' (noprec):   reduce toplevel --> 'EOF'
+    action 'BOOL' (noprec):   reduce toplevel --> 'EOF'
+    action 'FLOAT' (noprec):   reduce toplevel --> 'EOF'
+    action 'INT' (noprec):   reduce toplevel --> 'EOF'
+    action 'VAR' (noprec):   reduce toplevel --> 'EOF'
+    action 'TARROW' (noprec):   reduce toplevel --> 'EOF'
+    action 'TBOOL' (noprec):   reduce toplevel --> 'EOF'
+    action 'TFLOAT' (noprec):   reduce toplevel --> 'EOF'
+    action 'TINT' (noprec):   reduce toplevel --> 'EOF'
+    action 'error' (noprec):   reduce toplevel --> 'EOF'
+    action '#' (noprec):   reduce toplevel --> 'EOF'
+    action '$$' (noprec):   reduce toplevel --> 'EOF'
+
+  immediate action: <none>
+ gotos:
+
+state 5:
+  items:
+    toplevel -> def . 'EOF'
+    toplevel -> def . 'SEMICOLON2' 'EOF'
+    toplevel -> def . 'SEMICOLON2' toplevel
+
+  actions:
+    action 'EOF' (noprec):   shift 6
+    action 'SEMICOLON2' (noprec):   shift 7
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 6:
+  items:
+    toplevel -> def 'EOF' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce toplevel --> def 'EOF'
+    action 'SEMICOLON2' (noprec):   reduce toplevel --> def 'EOF'
+    action 'LET' (noprec):   reduce toplevel --> def 'EOF'
+    action 'LPAREN' (noprec):   reduce toplevel --> def 'EOF'
+    action 'RPAREN' (noprec):   reduce toplevel --> def 'EOF'
+    action 'COLON' (noprec):   reduce toplevel --> def 'EOF'
+    action 'FUN' (noprec):   reduce toplevel --> def 'EOF'
+    action 'IS' (noprec):   reduce toplevel --> def 'EOF'
+    action 'IF' (noprec):   reduce toplevel --> def 'EOF'
+    action 'THEN' (noprec):   reduce toplevel --> def 'EOF'
+    action 'ELSE' (noprec):   reduce toplevel --> def 'EOF'
+    action 'EQUAL' (noprec):   reduce toplevel --> def 'EOF'
+    action 'LESS' (noprec):   reduce toplevel --> def 'EOF'
+    action 'PLUS' (noprec):   reduce toplevel --> def 'EOF'
+    action 'MINUS' (noprec):   reduce toplevel --> def 'EOF'
+    action 'TIMES' (noprec):   reduce toplevel --> def 'EOF'
+    action 'DIVIDE' (noprec):   reduce toplevel --> def 'EOF'
+    action 'TRUE' (noprec):   reduce toplevel --> def 'EOF'
+    action 'FALSE' (noprec):   reduce toplevel --> def 'EOF'
+    action 'BOOL' (noprec):   reduce toplevel --> def 'EOF'
+    action 'FLOAT' (noprec):   reduce toplevel --> def 'EOF'
+    action 'INT' (noprec):   reduce toplevel --> def 'EOF'
+    action 'VAR' (noprec):   reduce toplevel --> def 'EOF'
+    action 'TARROW' (noprec):   reduce toplevel --> def 'EOF'
+    action 'TBOOL' (noprec):   reduce toplevel --> def 'EOF'
+    action 'TFLOAT' (noprec):   reduce toplevel --> def 'EOF'
+    action 'TINT' (noprec):   reduce toplevel --> def 'EOF'
+    action 'error' (noprec):   reduce toplevel --> def 'EOF'
+    action '#' (noprec):   reduce toplevel --> def 'EOF'
+    action '$$' (noprec):   reduce toplevel --> def 'EOF'
+
+  immediate action:   reduce toplevel --> def 'EOF'
+ gotos:
+
+state 7:
+  items:
+    toplevel -> def 'SEMICOLON2' . 'EOF'
+    toplevel -> def 'SEMICOLON2' . toplevel
+
+  actions:
+    action 'EOF' (noprec):   shift 3
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   shift 13
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto toplevel: 11
+    goto def: 5
+    goto expr: 8
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 8:
+  items:
+    toplevel -> expr . 'EOF'
+    toplevel -> expr . 'SEMICOLON2' 'EOF'
+    toplevel -> expr . 'SEMICOLON2' toplevel
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (noprec):   shift 9
+    action 'SEMICOLON2' (noprec):   shift 10
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 9:
+  items:
+    toplevel -> expr 'EOF' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'SEMICOLON2' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'LET' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'LPAREN' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'RPAREN' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'COLON' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'FUN' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'IS' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'IF' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'THEN' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'ELSE' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'EQUAL' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'LESS' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'PLUS' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'MINUS' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'TIMES' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'DIVIDE' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'TRUE' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'FALSE' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'BOOL' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'FLOAT' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'INT' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'VAR' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'TARROW' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'TBOOL' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'TFLOAT' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'TINT' (noprec):   reduce toplevel --> expr 'EOF'
+    action 'error' (noprec):   reduce toplevel --> expr 'EOF'
+    action '#' (noprec):   reduce toplevel --> expr 'EOF'
+    action '$$' (noprec):   reduce toplevel --> expr 'EOF'
+
+  immediate action:   reduce toplevel --> expr 'EOF'
+ gotos:
+
+state 10:
+  items:
+    toplevel -> expr 'SEMICOLON2' . 'EOF'
+    toplevel -> expr 'SEMICOLON2' . toplevel
+
+  actions:
+    action 'EOF' (noprec):   shift 4
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   shift 13
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto toplevel: 12
+    goto def: 5
+    goto expr: 8
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 11:
+  items:
+    toplevel -> def 'SEMICOLON2' toplevel . 
+
+  actions:
+    action 'EOF' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'SEMICOLON2' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'LET' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'LPAREN' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'RPAREN' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'COLON' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'FUN' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'IS' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'IF' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'THEN' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'ELSE' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'EQUAL' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'LESS' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'PLUS' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'MINUS' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'TIMES' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'DIVIDE' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'TRUE' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'FALSE' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'BOOL' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'FLOAT' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'INT' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'VAR' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'TARROW' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'TBOOL' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'TFLOAT' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'TINT' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action 'error' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action '#' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+    action '$$' (noprec):   reduce toplevel --> def 'SEMICOLON2' toplevel
+
+  immediate action:   reduce toplevel --> def 'SEMICOLON2' toplevel
+ gotos:
+
+state 12:
+  items:
+    toplevel -> expr 'SEMICOLON2' toplevel . 
+
+  actions:
+    action 'EOF' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'SEMICOLON2' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'LET' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'LPAREN' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'RPAREN' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'COLON' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'FUN' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'IS' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'IF' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'THEN' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'ELSE' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'EQUAL' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'LESS' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'PLUS' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'MINUS' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'TIMES' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'DIVIDE' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'TRUE' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'FALSE' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'BOOL' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'FLOAT' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'INT' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'VAR' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'TARROW' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'TBOOL' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'TFLOAT' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'TINT' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action 'error' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action '#' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+    action '$$' (noprec):   reduce toplevel --> expr 'SEMICOLON2' toplevel
+
+  immediate action:   reduce toplevel --> expr 'SEMICOLON2' toplevel
+ gotos:
+
+state 13:
+  items:
+    def -> 'LET' . 'VAR' 'EQUAL' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   shift 14
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 14:
+  items:
+    def -> 'LET' 'VAR' . 'EQUAL' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (explicit nonassoc 9996):   shift 15
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 15:
+  items:
+    def -> 'LET' 'VAR' 'EQUAL' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 16
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 16:
+  items:
+    def -> 'LET' 'VAR' 'EQUAL' expr . 
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'SEMICOLON2' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'LET' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'LPAREN' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'RPAREN' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'COLON' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'FUN' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'IS' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'IF' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'THEN' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'ELSE' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'FALSE' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'BOOL' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'FLOAT' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'INT' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'VAR' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'TARROW' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'TBOOL' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'TFLOAT' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'TINT' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action 'error' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action '#' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+    action '$$' (explicit nonassoc 9996):   reduce def --> 'LET' 'VAR' 'EQUAL' expr
+
+  immediate action: <none>
+ gotos:
+
+state 17:
+  items:
+    expr -> non_app . 
+    app -> non_app . non_app
+
+  actions:
+    action 'EOF' (noprec):   reduce expr --> non_app
+    action 'SEMICOLON2' (noprec):   reduce expr --> non_app
+    action 'LET' (noprec):   reduce expr --> non_app
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   reduce expr --> non_app
+    action 'COLON' (noprec):   reduce expr --> non_app
+    action 'FUN' (noprec):   reduce expr --> non_app
+    action 'IS' (noprec):   reduce expr --> non_app
+    action 'IF' (noprec):   reduce expr --> non_app
+    action 'THEN' (noprec):   reduce expr --> non_app
+    action 'ELSE' (noprec):   reduce expr --> non_app
+    action 'EQUAL' (noprec):   reduce expr --> non_app
+    action 'LESS' (noprec):   reduce expr --> non_app
+    action 'PLUS' (noprec):   reduce expr --> non_app
+    action 'MINUS' (noprec):   reduce expr --> non_app
+    action 'TIMES' (noprec):   reduce expr --> non_app
+    action 'DIVIDE' (noprec):   reduce expr --> non_app
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   reduce expr --> non_app
+    action 'FLOAT' (noprec):   reduce expr --> non_app
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   reduce expr --> non_app
+    action 'TBOOL' (noprec):   reduce expr --> non_app
+    action 'TFLOAT' (noprec):   reduce expr --> non_app
+    action 'TINT' (noprec):   reduce expr --> non_app
+    action 'error' (noprec):   reduce expr --> non_app
+    action '#' (noprec):   reduce expr --> non_app
+    action '$$' (noprec):   reduce expr --> non_app
+
+  immediate action: <none>
+ gotos:
+    goto non_app: 39
+
+state 18:
+  items:
+    expr -> app . 
+    app -> app . non_app
+
+  actions:
+    action 'EOF' (noprec):   reduce expr --> app
+    action 'SEMICOLON2' (noprec):   reduce expr --> app
+    action 'LET' (noprec):   reduce expr --> app
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   reduce expr --> app
+    action 'COLON' (noprec):   reduce expr --> app
+    action 'FUN' (noprec):   reduce expr --> app
+    action 'IS' (noprec):   reduce expr --> app
+    action 'IF' (noprec):   reduce expr --> app
+    action 'THEN' (noprec):   reduce expr --> app
+    action 'ELSE' (noprec):   reduce expr --> app
+    action 'EQUAL' (noprec):   reduce expr --> app
+    action 'LESS' (noprec):   reduce expr --> app
+    action 'PLUS' (noprec):   reduce expr --> app
+    action 'MINUS' (noprec):   reduce expr --> app
+    action 'TIMES' (noprec):   reduce expr --> app
+    action 'DIVIDE' (noprec):   reduce expr --> app
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   reduce expr --> app
+    action 'FLOAT' (noprec):   reduce expr --> app
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   reduce expr --> app
+    action 'TBOOL' (noprec):   reduce expr --> app
+    action 'TFLOAT' (noprec):   reduce expr --> app
+    action 'TINT' (noprec):   reduce expr --> app
+    action 'error' (noprec):   reduce expr --> app
+    action '#' (noprec):   reduce expr --> app
+    action '$$' (noprec):   reduce expr --> app
+
+  immediate action: <none>
+ gotos:
+    goto non_app: 38
+
+state 19:
+  items:
+    expr -> arithmetic . 
+
+  actions:
+    action 'EOF' (noprec):   reduce expr --> arithmetic
+    action 'SEMICOLON2' (noprec):   reduce expr --> arithmetic
+    action 'LET' (noprec):   reduce expr --> arithmetic
+    action 'LPAREN' (noprec):   reduce expr --> arithmetic
+    action 'RPAREN' (noprec):   reduce expr --> arithmetic
+    action 'COLON' (noprec):   reduce expr --> arithmetic
+    action 'FUN' (noprec):   reduce expr --> arithmetic
+    action 'IS' (noprec):   reduce expr --> arithmetic
+    action 'IF' (noprec):   reduce expr --> arithmetic
+    action 'THEN' (noprec):   reduce expr --> arithmetic
+    action 'ELSE' (noprec):   reduce expr --> arithmetic
+    action 'EQUAL' (noprec):   reduce expr --> arithmetic
+    action 'LESS' (noprec):   reduce expr --> arithmetic
+    action 'PLUS' (noprec):   reduce expr --> arithmetic
+    action 'MINUS' (noprec):   reduce expr --> arithmetic
+    action 'TIMES' (noprec):   reduce expr --> arithmetic
+    action 'DIVIDE' (noprec):   reduce expr --> arithmetic
+    action 'TRUE' (noprec):   reduce expr --> arithmetic
+    action 'FALSE' (noprec):   reduce expr --> arithmetic
+    action 'BOOL' (noprec):   reduce expr --> arithmetic
+    action 'FLOAT' (noprec):   reduce expr --> arithmetic
+    action 'INT' (noprec):   reduce expr --> arithmetic
+    action 'VAR' (noprec):   reduce expr --> arithmetic
+    action 'TARROW' (noprec):   reduce expr --> arithmetic
+    action 'TBOOL' (noprec):   reduce expr --> arithmetic
+    action 'TFLOAT' (noprec):   reduce expr --> arithmetic
+    action 'TINT' (noprec):   reduce expr --> arithmetic
+    action 'error' (noprec):   reduce expr --> arithmetic
+    action '#' (noprec):   reduce expr --> arithmetic
+    action '$$' (noprec):   reduce expr --> arithmetic
+
+  immediate action:   reduce expr --> arithmetic
+ gotos:
+
+state 20:
+  items:
+    expr -> cond . 
+
+  actions:
+    action 'EOF' (noprec):   reduce expr --> cond
+    action 'SEMICOLON2' (noprec):   reduce expr --> cond
+    action 'LET' (noprec):   reduce expr --> cond
+    action 'LPAREN' (noprec):   reduce expr --> cond
+    action 'RPAREN' (noprec):   reduce expr --> cond
+    action 'COLON' (noprec):   reduce expr --> cond
+    action 'FUN' (noprec):   reduce expr --> cond
+    action 'IS' (noprec):   reduce expr --> cond
+    action 'IF' (noprec):   reduce expr --> cond
+    action 'THEN' (noprec):   reduce expr --> cond
+    action 'ELSE' (noprec):   reduce expr --> cond
+    action 'EQUAL' (noprec):   reduce expr --> cond
+    action 'LESS' (noprec):   reduce expr --> cond
+    action 'PLUS' (noprec):   reduce expr --> cond
+    action 'MINUS' (noprec):   reduce expr --> cond
+    action 'TIMES' (noprec):   reduce expr --> cond
+    action 'DIVIDE' (noprec):   reduce expr --> cond
+    action 'TRUE' (noprec):   reduce expr --> cond
+    action 'FALSE' (noprec):   reduce expr --> cond
+    action 'BOOL' (noprec):   reduce expr --> cond
+    action 'FLOAT' (noprec):   reduce expr --> cond
+    action 'INT' (noprec):   reduce expr --> cond
+    action 'VAR' (noprec):   reduce expr --> cond
+    action 'TARROW' (noprec):   reduce expr --> cond
+    action 'TBOOL' (noprec):   reduce expr --> cond
+    action 'TFLOAT' (noprec):   reduce expr --> cond
+    action 'TINT' (noprec):   reduce expr --> cond
+    action 'error' (noprec):   reduce expr --> cond
+    action '#' (noprec):   reduce expr --> cond
+    action '$$' (noprec):   reduce expr --> cond
+
+  immediate action:   reduce expr --> cond
+ gotos:
+
+state 21:
+  items:
+    expr -> 'IF' . expr 'THEN' expr 'ELSE' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 22
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 22:
+  items:
+    expr -> 'IF' expr . 'THEN' expr 'ELSE' expr
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (explicit nonassoc 9995):   shift 23
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 23:
+  items:
+    expr -> 'IF' expr 'THEN' . expr 'ELSE' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 24
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 24:
+  items:
+    expr -> 'IF' expr 'THEN' expr . 'ELSE' expr
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (explicit nonassoc 9995):   shift 25
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 25:
+  items:
+    expr -> 'IF' expr 'THEN' expr 'ELSE' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 26
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 26:
+  items:
+    expr -> 'IF' expr 'THEN' expr 'ELSE' expr . 
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'SEMICOLON2' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'LET' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'LPAREN' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'RPAREN' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'COLON' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'FUN' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'IS' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'IF' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'THEN' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'ELSE' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'FALSE' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'BOOL' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'FLOAT' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'INT' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'VAR' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'TARROW' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'TBOOL' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'TFLOAT' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'TINT' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action 'error' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action '#' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+    action '$$' (explicit nonassoc 9995):   reduce expr --> 'IF' expr 'THEN' expr 'ELSE' expr
+
+  immediate action: <none>
+ gotos:
+
+state 27:
+  items:
+    expr -> 'FUN' . 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   shift 28
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 28:
+  items:
+    expr -> 'FUN' 'VAR' . 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 29
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 29:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' . 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   shift 30
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 30:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' . 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (explicit left 9999):   shift 31
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 31:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' . ty 'RPAREN' 'COLON' ty 'IS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 66
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   shift 61
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   shift 62
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto ty: 32
+
+state 32:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty . 'RPAREN' 'COLON' ty 'IS' expr
+    ty -> ty . 'TARROW' ty
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   shift 33
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (explicit right 10000):   shift 65
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 33:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' . 'COLON' ty 'IS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (explicit left 9999):   shift 34
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 34:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' . ty 'IS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 66
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   shift 61
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   shift 62
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto ty: 35
+
+state 35:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty . 'IS' expr
+    ty -> ty . 'TARROW' ty
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (explicit nonassoc 9994):   shift 36
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (explicit right 10000):   shift 65
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 36:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 37
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 37:
+  items:
+    expr -> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr . 
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'SEMICOLON2' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'LET' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'LPAREN' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'RPAREN' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'COLON' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'FUN' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'IS' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'IF' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'THEN' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'ELSE' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'FALSE' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'BOOL' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'FLOAT' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'INT' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'VAR' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'TARROW' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'TBOOL' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'TFLOAT' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'TINT' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action 'error' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action '#' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+    action '$$' (explicit nonassoc 9994):   reduce expr --> 'FUN' 'VAR' 'LPAREN' 'VAR' 'COLON' ty 'RPAREN' 'COLON' ty 'IS' expr
+
+  immediate action: <none>
+ gotos:
+
+state 38:
+  items:
+    app -> app non_app . 
+
+  actions:
+    action 'EOF' (noprec):   reduce app --> app non_app
+    action 'SEMICOLON2' (noprec):   reduce app --> app non_app
+    action 'LET' (noprec):   reduce app --> app non_app
+    action 'LPAREN' (noprec):   reduce app --> app non_app
+    action 'RPAREN' (noprec):   reduce app --> app non_app
+    action 'COLON' (noprec):   reduce app --> app non_app
+    action 'FUN' (noprec):   reduce app --> app non_app
+    action 'IS' (noprec):   reduce app --> app non_app
+    action 'IF' (noprec):   reduce app --> app non_app
+    action 'THEN' (noprec):   reduce app --> app non_app
+    action 'ELSE' (noprec):   reduce app --> app non_app
+    action 'EQUAL' (noprec):   reduce app --> app non_app
+    action 'LESS' (noprec):   reduce app --> app non_app
+    action 'PLUS' (noprec):   reduce app --> app non_app
+    action 'MINUS' (noprec):   reduce app --> app non_app
+    action 'TIMES' (noprec):   reduce app --> app non_app
+    action 'DIVIDE' (noprec):   reduce app --> app non_app
+    action 'TRUE' (noprec):   reduce app --> app non_app
+    action 'FALSE' (noprec):   reduce app --> app non_app
+    action 'BOOL' (noprec):   reduce app --> app non_app
+    action 'FLOAT' (noprec):   reduce app --> app non_app
+    action 'INT' (noprec):   reduce app --> app non_app
+    action 'VAR' (noprec):   reduce app --> app non_app
+    action 'TARROW' (noprec):   reduce app --> app non_app
+    action 'TBOOL' (noprec):   reduce app --> app non_app
+    action 'TFLOAT' (noprec):   reduce app --> app non_app
+    action 'TINT' (noprec):   reduce app --> app non_app
+    action 'error' (noprec):   reduce app --> app non_app
+    action '#' (noprec):   reduce app --> app non_app
+    action '$$' (noprec):   reduce app --> app non_app
+
+  immediate action:   reduce app --> app non_app
+ gotos:
+
+state 39:
+  items:
+    app -> non_app non_app . 
+
+  actions:
+    action 'EOF' (noprec):   reduce app --> non_app non_app
+    action 'SEMICOLON2' (noprec):   reduce app --> non_app non_app
+    action 'LET' (noprec):   reduce app --> non_app non_app
+    action 'LPAREN' (noprec):   reduce app --> non_app non_app
+    action 'RPAREN' (noprec):   reduce app --> non_app non_app
+    action 'COLON' (noprec):   reduce app --> non_app non_app
+    action 'FUN' (noprec):   reduce app --> non_app non_app
+    action 'IS' (noprec):   reduce app --> non_app non_app
+    action 'IF' (noprec):   reduce app --> non_app non_app
+    action 'THEN' (noprec):   reduce app --> non_app non_app
+    action 'ELSE' (noprec):   reduce app --> non_app non_app
+    action 'EQUAL' (noprec):   reduce app --> non_app non_app
+    action 'LESS' (noprec):   reduce app --> non_app non_app
+    action 'PLUS' (noprec):   reduce app --> non_app non_app
+    action 'MINUS' (noprec):   reduce app --> non_app non_app
+    action 'TIMES' (noprec):   reduce app --> non_app non_app
+    action 'DIVIDE' (noprec):   reduce app --> non_app non_app
+    action 'TRUE' (noprec):   reduce app --> non_app non_app
+    action 'FALSE' (noprec):   reduce app --> non_app non_app
+    action 'BOOL' (noprec):   reduce app --> non_app non_app
+    action 'FLOAT' (noprec):   reduce app --> non_app non_app
+    action 'INT' (noprec):   reduce app --> non_app non_app
+    action 'VAR' (noprec):   reduce app --> non_app non_app
+    action 'TARROW' (noprec):   reduce app --> non_app non_app
+    action 'TBOOL' (noprec):   reduce app --> non_app non_app
+    action 'TFLOAT' (noprec):   reduce app --> non_app non_app
+    action 'TINT' (noprec):   reduce app --> non_app non_app
+    action 'error' (noprec):   reduce app --> non_app non_app
+    action '#' (noprec):   reduce app --> non_app non_app
+    action '$$' (noprec):   reduce app --> non_app non_app
+
+  immediate action:   reduce app --> non_app non_app
+ gotos:
+
+state 40:
+  items:
+    non_app -> 'VAR' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce non_app --> 'VAR'
+    action 'SEMICOLON2' (noprec):   reduce non_app --> 'VAR'
+    action 'LET' (noprec):   reduce non_app --> 'VAR'
+    action 'LPAREN' (noprec):   reduce non_app --> 'VAR'
+    action 'RPAREN' (noprec):   reduce non_app --> 'VAR'
+    action 'COLON' (noprec):   reduce non_app --> 'VAR'
+    action 'FUN' (noprec):   reduce non_app --> 'VAR'
+    action 'IS' (noprec):   reduce non_app --> 'VAR'
+    action 'IF' (noprec):   reduce non_app --> 'VAR'
+    action 'THEN' (noprec):   reduce non_app --> 'VAR'
+    action 'ELSE' (noprec):   reduce non_app --> 'VAR'
+    action 'EQUAL' (noprec):   reduce non_app --> 'VAR'
+    action 'LESS' (noprec):   reduce non_app --> 'VAR'
+    action 'PLUS' (noprec):   reduce non_app --> 'VAR'
+    action 'MINUS' (noprec):   reduce non_app --> 'VAR'
+    action 'TIMES' (noprec):   reduce non_app --> 'VAR'
+    action 'DIVIDE' (noprec):   reduce non_app --> 'VAR'
+    action 'TRUE' (noprec):   reduce non_app --> 'VAR'
+    action 'FALSE' (noprec):   reduce non_app --> 'VAR'
+    action 'BOOL' (noprec):   reduce non_app --> 'VAR'
+    action 'FLOAT' (noprec):   reduce non_app --> 'VAR'
+    action 'INT' (noprec):   reduce non_app --> 'VAR'
+    action 'VAR' (noprec):   reduce non_app --> 'VAR'
+    action 'TARROW' (noprec):   reduce non_app --> 'VAR'
+    action 'TBOOL' (noprec):   reduce non_app --> 'VAR'
+    action 'TFLOAT' (noprec):   reduce non_app --> 'VAR'
+    action 'TINT' (noprec):   reduce non_app --> 'VAR'
+    action 'error' (noprec):   reduce non_app --> 'VAR'
+    action '#' (noprec):   reduce non_app --> 'VAR'
+    action '$$' (noprec):   reduce non_app --> 'VAR'
+
+  immediate action:   reduce non_app --> 'VAR'
+ gotos:
+
+state 41:
+  items:
+    non_app -> 'TRUE' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce non_app --> 'TRUE'
+    action 'SEMICOLON2' (noprec):   reduce non_app --> 'TRUE'
+    action 'LET' (noprec):   reduce non_app --> 'TRUE'
+    action 'LPAREN' (noprec):   reduce non_app --> 'TRUE'
+    action 'RPAREN' (noprec):   reduce non_app --> 'TRUE'
+    action 'COLON' (noprec):   reduce non_app --> 'TRUE'
+    action 'FUN' (noprec):   reduce non_app --> 'TRUE'
+    action 'IS' (noprec):   reduce non_app --> 'TRUE'
+    action 'IF' (noprec):   reduce non_app --> 'TRUE'
+    action 'THEN' (noprec):   reduce non_app --> 'TRUE'
+    action 'ELSE' (noprec):   reduce non_app --> 'TRUE'
+    action 'EQUAL' (noprec):   reduce non_app --> 'TRUE'
+    action 'LESS' (noprec):   reduce non_app --> 'TRUE'
+    action 'PLUS' (noprec):   reduce non_app --> 'TRUE'
+    action 'MINUS' (noprec):   reduce non_app --> 'TRUE'
+    action 'TIMES' (noprec):   reduce non_app --> 'TRUE'
+    action 'DIVIDE' (noprec):   reduce non_app --> 'TRUE'
+    action 'TRUE' (noprec):   reduce non_app --> 'TRUE'
+    action 'FALSE' (noprec):   reduce non_app --> 'TRUE'
+    action 'BOOL' (noprec):   reduce non_app --> 'TRUE'
+    action 'FLOAT' (noprec):   reduce non_app --> 'TRUE'
+    action 'INT' (noprec):   reduce non_app --> 'TRUE'
+    action 'VAR' (noprec):   reduce non_app --> 'TRUE'
+    action 'TARROW' (noprec):   reduce non_app --> 'TRUE'
+    action 'TBOOL' (noprec):   reduce non_app --> 'TRUE'
+    action 'TFLOAT' (noprec):   reduce non_app --> 'TRUE'
+    action 'TINT' (noprec):   reduce non_app --> 'TRUE'
+    action 'error' (noprec):   reduce non_app --> 'TRUE'
+    action '#' (noprec):   reduce non_app --> 'TRUE'
+    action '$$' (noprec):   reduce non_app --> 'TRUE'
+
+  immediate action:   reduce non_app --> 'TRUE'
+ gotos:
+
+state 42:
+  items:
+    non_app -> 'FALSE' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce non_app --> 'FALSE'
+    action 'SEMICOLON2' (noprec):   reduce non_app --> 'FALSE'
+    action 'LET' (noprec):   reduce non_app --> 'FALSE'
+    action 'LPAREN' (noprec):   reduce non_app --> 'FALSE'
+    action 'RPAREN' (noprec):   reduce non_app --> 'FALSE'
+    action 'COLON' (noprec):   reduce non_app --> 'FALSE'
+    action 'FUN' (noprec):   reduce non_app --> 'FALSE'
+    action 'IS' (noprec):   reduce non_app --> 'FALSE'
+    action 'IF' (noprec):   reduce non_app --> 'FALSE'
+    action 'THEN' (noprec):   reduce non_app --> 'FALSE'
+    action 'ELSE' (noprec):   reduce non_app --> 'FALSE'
+    action 'EQUAL' (noprec):   reduce non_app --> 'FALSE'
+    action 'LESS' (noprec):   reduce non_app --> 'FALSE'
+    action 'PLUS' (noprec):   reduce non_app --> 'FALSE'
+    action 'MINUS' (noprec):   reduce non_app --> 'FALSE'
+    action 'TIMES' (noprec):   reduce non_app --> 'FALSE'
+    action 'DIVIDE' (noprec):   reduce non_app --> 'FALSE'
+    action 'TRUE' (noprec):   reduce non_app --> 'FALSE'
+    action 'FALSE' (noprec):   reduce non_app --> 'FALSE'
+    action 'BOOL' (noprec):   reduce non_app --> 'FALSE'
+    action 'FLOAT' (noprec):   reduce non_app --> 'FALSE'
+    action 'INT' (noprec):   reduce non_app --> 'FALSE'
+    action 'VAR' (noprec):   reduce non_app --> 'FALSE'
+    action 'TARROW' (noprec):   reduce non_app --> 'FALSE'
+    action 'TBOOL' (noprec):   reduce non_app --> 'FALSE'
+    action 'TFLOAT' (noprec):   reduce non_app --> 'FALSE'
+    action 'TINT' (noprec):   reduce non_app --> 'FALSE'
+    action 'error' (noprec):   reduce non_app --> 'FALSE'
+    action '#' (noprec):   reduce non_app --> 'FALSE'
+    action '$$' (noprec):   reduce non_app --> 'FALSE'
+
+  immediate action:   reduce non_app --> 'FALSE'
+ gotos:
+
+state 43:
+  items:
+    non_app -> 'INT' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce non_app --> 'INT'
+    action 'SEMICOLON2' (noprec):   reduce non_app --> 'INT'
+    action 'LET' (noprec):   reduce non_app --> 'INT'
+    action 'LPAREN' (noprec):   reduce non_app --> 'INT'
+    action 'RPAREN' (noprec):   reduce non_app --> 'INT'
+    action 'COLON' (noprec):   reduce non_app --> 'INT'
+    action 'FUN' (noprec):   reduce non_app --> 'INT'
+    action 'IS' (noprec):   reduce non_app --> 'INT'
+    action 'IF' (noprec):   reduce non_app --> 'INT'
+    action 'THEN' (noprec):   reduce non_app --> 'INT'
+    action 'ELSE' (noprec):   reduce non_app --> 'INT'
+    action 'EQUAL' (noprec):   reduce non_app --> 'INT'
+    action 'LESS' (noprec):   reduce non_app --> 'INT'
+    action 'PLUS' (noprec):   reduce non_app --> 'INT'
+    action 'MINUS' (noprec):   reduce non_app --> 'INT'
+    action 'TIMES' (noprec):   reduce non_app --> 'INT'
+    action 'DIVIDE' (noprec):   reduce non_app --> 'INT'
+    action 'TRUE' (noprec):   reduce non_app --> 'INT'
+    action 'FALSE' (noprec):   reduce non_app --> 'INT'
+    action 'BOOL' (noprec):   reduce non_app --> 'INT'
+    action 'FLOAT' (noprec):   reduce non_app --> 'INT'
+    action 'INT' (noprec):   reduce non_app --> 'INT'
+    action 'VAR' (noprec):   reduce non_app --> 'INT'
+    action 'TARROW' (noprec):   reduce non_app --> 'INT'
+    action 'TBOOL' (noprec):   reduce non_app --> 'INT'
+    action 'TFLOAT' (noprec):   reduce non_app --> 'INT'
+    action 'TINT' (noprec):   reduce non_app --> 'INT'
+    action 'error' (noprec):   reduce non_app --> 'INT'
+    action '#' (noprec):   reduce non_app --> 'INT'
+    action '$$' (noprec):   reduce non_app --> 'INT'
+
+  immediate action:   reduce non_app --> 'INT'
+ gotos:
+
+state 44:
+  items:
+    non_app -> 'LPAREN' . expr 'RPAREN'
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 45
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 45:
+  items:
+    non_app -> 'LPAREN' expr . 'RPAREN'
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   shift 46
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 46:
+  items:
+    non_app -> 'LPAREN' expr 'RPAREN' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'SEMICOLON2' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'LET' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'LPAREN' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'RPAREN' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'COLON' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'FUN' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'IS' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'IF' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'THEN' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'ELSE' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'EQUAL' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'LESS' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'PLUS' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'MINUS' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'TIMES' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'DIVIDE' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'TRUE' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'FALSE' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'BOOL' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'FLOAT' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'INT' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'VAR' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'TARROW' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'TBOOL' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'TFLOAT' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'TINT' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action 'error' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action '#' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+    action '$$' (noprec):   reduce non_app --> 'LPAREN' expr 'RPAREN'
+
+  immediate action:   reduce non_app --> 'LPAREN' expr 'RPAREN'
+ gotos:
+
+state 47:
+  items:
+    arithmetic -> 'MINUS' . 'INT'
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 48
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 48:
+  items:
+    arithmetic -> 'MINUS' 'INT' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'SEMICOLON2' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'LET' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'LPAREN' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'RPAREN' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'COLON' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'FUN' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'IS' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'IF' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'THEN' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'ELSE' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'EQUAL' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'LESS' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'PLUS' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'MINUS' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'TIMES' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'DIVIDE' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'TRUE' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'FALSE' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'BOOL' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'FLOAT' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'INT' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'VAR' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'TARROW' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'TBOOL' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'TFLOAT' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'TINT' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action 'error' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action '#' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+    action '$$' (noprec):   reduce arithmetic --> 'MINUS' 'INT'
+
+  immediate action:   reduce arithmetic --> 'MINUS' 'INT'
+ gotos:
+
+state 49:
+  items:
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr 'PLUS' expr . 
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'SEMICOLON2' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'LET' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'LPAREN' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'RPAREN' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'COLON' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'FUN' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'IS' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'IF' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'THEN' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'ELSE' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'EQUAL' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'LESS' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'PLUS' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'MINUS' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'FALSE' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'BOOL' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'FLOAT' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'INT' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'VAR' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'TARROW' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'TBOOL' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'TFLOAT' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'TINT' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action 'error' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action '#' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+    action '$$' (explicit left 9997):   reduce arithmetic --> expr 'PLUS' expr
+
+  immediate action: <none>
+ gotos:
+
+state 50:
+  items:
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr 'MINUS' expr . 
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'SEMICOLON2' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'LET' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'LPAREN' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'RPAREN' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'COLON' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'FUN' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'IS' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'IF' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'THEN' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'ELSE' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'EQUAL' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'LESS' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'PLUS' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'MINUS' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'FALSE' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'BOOL' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'FLOAT' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'INT' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'VAR' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'TARROW' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'TBOOL' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'TFLOAT' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'TINT' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action 'error' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action '#' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+    action '$$' (explicit left 9997):   reduce arithmetic --> expr 'MINUS' expr
+
+  immediate action: <none>
+ gotos:
+
+state 51:
+  items:
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr 'TIMES' expr . 
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'SEMICOLON2' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'LET' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'LPAREN' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'RPAREN' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'COLON' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'FUN' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'IS' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'IF' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'THEN' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'ELSE' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'EQUAL' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'LESS' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'PLUS' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'MINUS' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'TIMES' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'DIVIDE' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'TRUE' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'FALSE' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'BOOL' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'FLOAT' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'INT' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'VAR' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'TARROW' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'TBOOL' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'TFLOAT' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'TINT' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action 'error' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action '#' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+    action '$$' (explicit left 9998):   reduce arithmetic --> expr 'TIMES' expr
+
+  immediate action: <none>
+ gotos:
+
+state 52:
+  items:
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    arithmetic -> expr 'DIVIDE' expr . 
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'SEMICOLON2' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'LET' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'LPAREN' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'RPAREN' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'COLON' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'FUN' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'IS' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'IF' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'THEN' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'ELSE' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'EQUAL' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'LESS' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'PLUS' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'MINUS' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'TIMES' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'DIVIDE' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'TRUE' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'FALSE' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'BOOL' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'FLOAT' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'INT' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'VAR' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'TARROW' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'TBOOL' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'TFLOAT' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'TINT' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action 'error' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action '#' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+    action '$$' (explicit left 9998):   reduce arithmetic --> expr 'DIVIDE' expr
+
+  immediate action: <none>
+ gotos:
+
+state 53:
+  items:
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr 'EQUAL' expr . 
+    cond -> expr . 'LESS' expr
+
+  actions:
+    action 'EOF' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'SEMICOLON2' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'LET' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'LPAREN' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'RPAREN' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'COLON' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'FUN' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'IS' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'IF' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'THEN' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'ELSE' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'FALSE' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'BOOL' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'FLOAT' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'INT' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'VAR' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'TARROW' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'TBOOL' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'TFLOAT' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'TINT' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action 'error' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action '#' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+    action '$$' (explicit nonassoc 9996):   reduce cond --> expr 'EQUAL' expr
+
+  immediate action: <none>
+ gotos:
+
+state 54:
+  items:
+    arithmetic -> expr . 'PLUS' expr
+    arithmetic -> expr . 'MINUS' expr
+    arithmetic -> expr . 'TIMES' expr
+    arithmetic -> expr . 'DIVIDE' expr
+    cond -> expr . 'EQUAL' expr
+    cond -> expr . 'LESS' expr
+    cond -> expr 'LESS' expr . 
+
+  actions:
+    action 'EOF' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'SEMICOLON2' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'LET' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'LPAREN' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'RPAREN' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'COLON' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'FUN' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'IS' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'IF' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'THEN' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'ELSE' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'EQUAL' (explicit nonassoc 9996):   shift 59
+    action 'LESS' (explicit nonassoc 9996):   shift 60
+    action 'PLUS' (explicit left 9997):   shift 55
+    action 'MINUS' (explicit left 9997):   shift 56
+    action 'TIMES' (explicit left 9998):   shift 57
+    action 'DIVIDE' (explicit left 9998):   shift 58
+    action 'TRUE' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'FALSE' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'BOOL' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'FLOAT' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'INT' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'VAR' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'TARROW' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'TBOOL' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'TFLOAT' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'TINT' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action 'error' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action '#' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+    action '$$' (explicit nonassoc 9996):   reduce cond --> expr 'LESS' expr
+
+  immediate action: <none>
+ gotos:
+
+state 55:
+  items:
+    arithmetic -> expr 'PLUS' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 49
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 56:
+  items:
+    arithmetic -> expr 'MINUS' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 50
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 57:
+  items:
+    arithmetic -> expr 'TIMES' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 51
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 58:
+  items:
+    arithmetic -> expr 'DIVIDE' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 52
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 59:
+  items:
+    cond -> expr 'EQUAL' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 53
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 60:
+  items:
+    cond -> expr 'LESS' . expr
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 44
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (explicit nonassoc 9994):   shift 27
+    action 'IS' (noprec):   error
+    action 'IF' (explicit nonassoc 9995):   shift 21
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9997):   shift 47
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   shift 41
+    action 'FALSE' (noprec):   shift 42
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   shift 43
+    action 'VAR' (noprec):   shift 40
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto expr: 54
+    goto app: 18
+    goto non_app: 17
+    goto arithmetic: 19
+    goto cond: 20
+
+state 61:
+  items:
+    ty -> 'TBOOL' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce ty --> 'TBOOL'
+    action 'SEMICOLON2' (noprec):   reduce ty --> 'TBOOL'
+    action 'LET' (noprec):   reduce ty --> 'TBOOL'
+    action 'LPAREN' (noprec):   reduce ty --> 'TBOOL'
+    action 'RPAREN' (noprec):   reduce ty --> 'TBOOL'
+    action 'COLON' (noprec):   reduce ty --> 'TBOOL'
+    action 'FUN' (noprec):   reduce ty --> 'TBOOL'
+    action 'IS' (noprec):   reduce ty --> 'TBOOL'
+    action 'IF' (noprec):   reduce ty --> 'TBOOL'
+    action 'THEN' (noprec):   reduce ty --> 'TBOOL'
+    action 'ELSE' (noprec):   reduce ty --> 'TBOOL'
+    action 'EQUAL' (noprec):   reduce ty --> 'TBOOL'
+    action 'LESS' (noprec):   reduce ty --> 'TBOOL'
+    action 'PLUS' (noprec):   reduce ty --> 'TBOOL'
+    action 'MINUS' (noprec):   reduce ty --> 'TBOOL'
+    action 'TIMES' (noprec):   reduce ty --> 'TBOOL'
+    action 'DIVIDE' (noprec):   reduce ty --> 'TBOOL'
+    action 'TRUE' (noprec):   reduce ty --> 'TBOOL'
+    action 'FALSE' (noprec):   reduce ty --> 'TBOOL'
+    action 'BOOL' (noprec):   reduce ty --> 'TBOOL'
+    action 'FLOAT' (noprec):   reduce ty --> 'TBOOL'
+    action 'INT' (noprec):   reduce ty --> 'TBOOL'
+    action 'VAR' (noprec):   reduce ty --> 'TBOOL'
+    action 'TARROW' (noprec):   reduce ty --> 'TBOOL'
+    action 'TBOOL' (noprec):   reduce ty --> 'TBOOL'
+    action 'TFLOAT' (noprec):   reduce ty --> 'TBOOL'
+    action 'TINT' (noprec):   reduce ty --> 'TBOOL'
+    action 'error' (noprec):   reduce ty --> 'TBOOL'
+    action '#' (noprec):   reduce ty --> 'TBOOL'
+    action '$$' (noprec):   reduce ty --> 'TBOOL'
+
+  immediate action:   reduce ty --> 'TBOOL'
+ gotos:
+
+state 62:
+  items:
+    ty -> 'TINT' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce ty --> 'TINT'
+    action 'SEMICOLON2' (noprec):   reduce ty --> 'TINT'
+    action 'LET' (noprec):   reduce ty --> 'TINT'
+    action 'LPAREN' (noprec):   reduce ty --> 'TINT'
+    action 'RPAREN' (noprec):   reduce ty --> 'TINT'
+    action 'COLON' (noprec):   reduce ty --> 'TINT'
+    action 'FUN' (noprec):   reduce ty --> 'TINT'
+    action 'IS' (noprec):   reduce ty --> 'TINT'
+    action 'IF' (noprec):   reduce ty --> 'TINT'
+    action 'THEN' (noprec):   reduce ty --> 'TINT'
+    action 'ELSE' (noprec):   reduce ty --> 'TINT'
+    action 'EQUAL' (noprec):   reduce ty --> 'TINT'
+    action 'LESS' (noprec):   reduce ty --> 'TINT'
+    action 'PLUS' (noprec):   reduce ty --> 'TINT'
+    action 'MINUS' (noprec):   reduce ty --> 'TINT'
+    action 'TIMES' (noprec):   reduce ty --> 'TINT'
+    action 'DIVIDE' (noprec):   reduce ty --> 'TINT'
+    action 'TRUE' (noprec):   reduce ty --> 'TINT'
+    action 'FALSE' (noprec):   reduce ty --> 'TINT'
+    action 'BOOL' (noprec):   reduce ty --> 'TINT'
+    action 'FLOAT' (noprec):   reduce ty --> 'TINT'
+    action 'INT' (noprec):   reduce ty --> 'TINT'
+    action 'VAR' (noprec):   reduce ty --> 'TINT'
+    action 'TARROW' (noprec):   reduce ty --> 'TINT'
+    action 'TBOOL' (noprec):   reduce ty --> 'TINT'
+    action 'TFLOAT' (noprec):   reduce ty --> 'TINT'
+    action 'TINT' (noprec):   reduce ty --> 'TINT'
+    action 'error' (noprec):   reduce ty --> 'TINT'
+    action '#' (noprec):   reduce ty --> 'TINT'
+    action '$$' (noprec):   reduce ty --> 'TINT'
+
+  immediate action:   reduce ty --> 'TINT'
+ gotos:
+
+state 63:
+  items:
+    ty -> ty . 'TARROW' ty
+    ty -> ty 'TARROW' ty . 
+
+  actions:
+    action 'EOF' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'SEMICOLON2' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'LET' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'LPAREN' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'RPAREN' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'COLON' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'FUN' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'IS' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'IF' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'THEN' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'ELSE' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'EQUAL' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'LESS' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'PLUS' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'MINUS' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'TIMES' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'DIVIDE' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'TRUE' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'FALSE' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'BOOL' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'FLOAT' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'INT' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'VAR' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'TARROW' (explicit right 10000):   shift 65
+    action 'TBOOL' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'TFLOAT' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'TINT' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action 'error' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action '#' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+    action '$$' (explicit right 10000):   reduce ty --> ty 'TARROW' ty
+
+  immediate action: <none>
+ gotos:
+
+state 64:
+  items:
+    ty -> ty . 'TARROW' ty
+    ty -> 'LPAREN' ty . 'RPAREN'
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   error
+    action 'RPAREN' (noprec):   shift 67
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (explicit right 10000):   shift 65
+    action 'TBOOL' (noprec):   error
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+
+state 65:
+  items:
+    ty -> ty 'TARROW' . ty
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 66
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   shift 61
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   shift 62
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto ty: 63
+
+state 66:
+  items:
+    ty -> 'LPAREN' . ty 'RPAREN'
+
+  actions:
+    action 'EOF' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'LPAREN' (noprec):   shift 66
+    action 'RPAREN' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'IS' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'EQUAL' (noprec):   error
+    action 'LESS' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'TIMES' (noprec):   error
+    action 'DIVIDE' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BOOL' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'VAR' (noprec):   error
+    action 'TARROW' (noprec):   error
+    action 'TBOOL' (noprec):   shift 61
+    action 'TFLOAT' (noprec):   error
+    action 'TINT' (noprec):   shift 62
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+
+  immediate action: <none>
+ gotos:
+    goto ty: 64
+
+state 67:
+  items:
+    ty -> 'LPAREN' ty 'RPAREN' . 
+
+  actions:
+    action 'EOF' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'SEMICOLON2' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'LET' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'LPAREN' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'RPAREN' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'COLON' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'FUN' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'IS' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'IF' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'THEN' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'ELSE' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'EQUAL' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'LESS' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'PLUS' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'MINUS' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'TIMES' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'DIVIDE' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'TRUE' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'FALSE' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'BOOL' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'FLOAT' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'INT' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'VAR' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'TARROW' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'TBOOL' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'TFLOAT' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'TINT' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action 'error' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action '#' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+    action '$$' (noprec):   reduce ty --> 'LPAREN' ty 'RPAREN'
+
+  immediate action:   reduce ty --> 'LPAREN' ty 'RPAREN'
+ gotos:
+
+
+startStates = 0
+------------------------

@@ -1,0 +1,53 @@
+{
+module NanoML.Compiler.Lexer
+open Microsoft.FSharp.Text
+open NanoML.Compiler.Parser
+
+let lexeme = LexBuffer<_>.LexemeString
+
+let keywords =
+    [ "if", IF
+      "then", THEN
+      "else", ELSE
+      "fun", FUN
+      "int", TINT
+      "float", TFLOAT
+      "bool", TBOOL
+      "is", IS
+      "let", LET
+      "true", TRUE]
+
+let kwdMap = keywords |> Map.ofList
+
+let ident id =
+    match kwdMap id kwdMap with
+    | Some v -> v | _ -> Var id
+
+}
+
+let ident = ['a' - 'z' 'A' - 'Z']+
+let newline = '\n' | '\r' '\n'
+let whitespace = [' ' '\t']
+let digit = ['0' - '9']
+let integer = digit+
+let float = digit+ ('.' digit* )? ('e'| 'E') ['+' '-']? digit+
+
+rule token = parse
+      whitespace { token lexbuf }
+    | newline { lexbuf.EndPos <- lexeme.EndPos.NextLine; token lexbuf }
+    | ident { ident (lexeme lexbuf) }
+    | integer { System.Int32.Parse(lexeme lexbuf) }
+    | float { System.Double.Parse(lexeme lexbuf) }
+    | "->" { TARROW }
+    | ";;" { SEMICOLON2 }
+    | '=' { EQUALS }
+    | '<' { LESS }
+    | ':' { COLON }
+    | '(' { LPAREN }
+    | ')' { RPAREN }
+    | '+' { PLUS }
+    | '-' { MINUS }
+    | '/' { DIVIDE }
+    | '*' { MULTIPY }
+    | eof { EOF }
+    

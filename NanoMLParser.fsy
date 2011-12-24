@@ -4,13 +4,14 @@ open NanoML.Compiler.Ast
 
 %token TINT
 %token TFLOAT
-%token TBOOLEAN
+%token TBOOL
 %token TARROW
 %token <name> VAR
 %token <int> INT
 %token <float> FLOAT
 %token <bool> BOOL
 %token TRUE FALSE
+%token PLUS MINUS TIMES DIVIDE
 %token EQUAL LESS
 %token IF THEN ELSE
 %token FUN IS
@@ -21,7 +22,7 @@ open NanoML.Compiler.Ast
 %token EOF
 
 %start toplevel
-%type <toplevel_delc> toplevel
+%type <toplevel_decl list> toplevel
 
 %nonassoc FUN IS
 %nonassoc IF THEN ELSE
@@ -39,10 +40,10 @@ toplevel:
       EOF { [] }
     | def EOF { [$1] }
     | def SEMICOLON2 EOF { [$1] }
-    | expr EOF { Expr $1 }
-    | expr SEMICOLON2 EOF { [$1] }
+    | expr EOF { [Expr $1] }
+    | expr SEMICOLON2 EOF { [Expr $1] }
     | def SEMICOLON2 toplevel { $1 :: $3 }
-    | expr SEMICOLON2 toplevel { Expr $1 :: $3 }
+    | expr SEMICOLON2 toplevel { (Expr $1) :: $3 }
 
 
 def : LET VAR EQUAL expr { LetBinding (Name $2, $4) }
@@ -51,10 +52,10 @@ def : LET VAR EQUAL expr { LetBinding (Name $2, $4) }
 expr:
       non_app { $1 }
     | app { $1 }
-    | arith { $1 }
+    | arithmetic { $1 }
     | cond { $1 }
     | IF expr THEN expr ELSE expr { Cond ($2, $4, $6) }
-    | FUN VAR LPAREN VAR COLON ty PAREN COLON ty IS expr { Fun (Name $2, Name $4, $6, $9, $11) }
+    | FUN VAR LPAREN VAR COLON ty RPAREN COLON ty IS expr { Fun (Name $2, Name $4, $6, $9, $11) }
 
 
 app :
@@ -69,14 +70,14 @@ non_app:
     | INT { Int $1 }
     | LPAREN expr RPAREN { $2 }
 
-arith:
+arithmetic:
       MINUS INT { Int (-$2) }
     | expr PLUS expr { Plus ($1, $3) }
     | expr MINUS expr { Minus ($1, $3) }
     | expr TIMES expr { Times($1, $3) }
     | expr DIVIDE expr { Divide ($1, $3) }
 
-boolean:
+cond:
       expr EQUAL expr { Equal ($1, $3) }
     | expr LESS expr { Less ($1, $3) }
 
@@ -84,4 +85,6 @@ ty:
       TBOOL { TBool }
     | TINT { TInt }
     | ty TARROW ty { Fun ($1, $3) }
-    | LPAREN type RPAREN { $2 }
+    | LPAREN ty RPAREN { $2 }
+
+%%

@@ -38,3 +38,4 @@ aspnetdb_log.ldf
 *.zip
 *.*~
 ~*
+*.*#
