@@ -9,7 +9,7 @@ exception TypeError of string
 
 let typeError msg = raise (TypeError msg)
 
-let inline randName() = System.Guid.NewGuid().ToString()
+let inline randName() = Name <| System.Guid.NewGuid().ToString()
 
 
 let rec check ctx ty e =
@@ -68,12 +68,12 @@ and typeOf ctx = function
         TLetIn (name, e1texpr, e2texpr, e2texpr.Type)
 
 let cleanName ((Name n) as name) =
-    if n = "_" then Name (randName())
+    if n = "_" then randName()
     else name
 
 let rec erasure ctx = function
     | TLetIn (x, texpr1, texpr2, ty) ->
-        let name = Name <| randName()
+        let name = randName()
         let ctx' = (name, TyFun(texpr1.Type, texpr2.Type)) :: ctx 
         let lambda = TFun(name, 
                           x,
