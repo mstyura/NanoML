@@ -19,11 +19,11 @@ let keywords =
       "int", TINT
       "float", TFLOAT
       "bool", TBOOL
-      "is", IS
       "let", LET
       "true", TRUE
       "false", FALSE
-      "end", END ]
+      "end", END 
+      "in", IN ]
 
 let kwdMap = keywords |> Map.ofList
 
@@ -49,6 +49,7 @@ rule token = parse
     | integer { INT(System.Int32.Parse(lexeme lexbuf)) }
     | float { FLOAT(System.Double.Parse(lexeme lexbuf)) }
     | "->" { TARROW }
+    | "=>" { IS }
     | ";;" { SEMICOLON2 }
     | '=' { EQUAL }
     | '<' { LESS }

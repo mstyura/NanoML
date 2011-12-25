@@ -39,6 +39,7 @@ type expr =
     | Equal of expr * expr
     | Less of expr * expr
     | Cond of expr * expr * expr
+    | LetIn of name * expr * expr
     | Fun of name * name * ty * ty * expr
     | Apply of expr * expr
     override expr.ToString() =
@@ -59,6 +60,7 @@ type expr =
                 | Cond (e1, e2, e3) -> 2, sprintf "if %s then %s else %s" (toStr 2 e1) (toStr 2 e2) (toStr 2 e3)
                 | Fun (f, x, ty1, ty2, e) ->
                     (1, sprintf "fun %s (%s : %s) : %s is %s" (string f) (string x) (string ty1) (string ty2) (toStr 0 e))
+                | LetIn (name, e1, e2) -> 8, sprintf "let %O = %s in %s" name (toStr 7 e1) (toStr 8 e2)
             if m > precedence then str else "(" + str + ")"
         toStr (-1) expr
 
@@ -74,7 +76,6 @@ let rec subst s = function
     | Times (e1, e2) -> Times(subst s e1, subst s e2)
     | Plus (e1, e2) -> Plus(subst s e1, subst s e2)
     | Minus (e1, e2) -> Minus (subst s e1, subst s e2)
-    // TODO: Ensure that divide substitution semantic is right.
     | Divide (e1, e2) -> Divide(subst s e1, subst s e2)
     | Equal (e1, e2) -> Equal (subst s e1, subst s e2)
     | Less (e1, e2) -> Less (subst s e1, subst s e2)
@@ -82,4 +83,5 @@ let rec subst s = function
     | Fun (f, x, tyIn, tyOut, e) ->
         let s' = s |> List.removeAssoc x |> List.removeAssoc f
         Fun(f, x, tyIn, tyOut, subst s' e)
-    | Apply (e1, e2) -> Apply (subst s e1, subst s e2) 
+    | Apply (e1, e2) -> Apply (subst s e1, subst s e2)
+    | LetIn (var, e1, e2) -> LetIn(var, e1, subst ((var, e1) :: s) e2)

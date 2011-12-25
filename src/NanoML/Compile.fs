@@ -48,3 +48,4 @@ let rec emit = function
     | TFun (f, x, _, _, e, _) -> [ILdClosure (f, x, emit e @ [IPopEnv])]
     | TCond (e1, e2, e3, _) -> (emit e1) @ [IBranch (emit e2, emit e3)]
     | TApply (e1, e2, _) -> (emit e1) @ (emit e2) @ [ICall]
+    | astNode -> failwithf "Not valid node for emitter: %A" astNode

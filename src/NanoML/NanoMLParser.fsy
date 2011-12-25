@@ -21,19 +21,26 @@ open NanoML.Compiler.Ast
 %token LET
 %token SEMICOLON2
 %token END
+%token IN
 %token EOF
 
 %start toplevel
 %type <toplevel_decl list> toplevel
 
+%start expr
+%type <expr> expr
+
 %nonassoc FUN IS
 %nonassoc IF THEN ELSE
-%nonassoc EQUAL LESS
+%nonassoc EQUAL
+%nonassoc LESS
 
+%left IN
 %left PLUS MINUS
 %left TIMES DIVIDE
 %left COLON
 %right TARROW
+
 
 %%
 
@@ -58,6 +65,8 @@ expr:
     | cond { $1 }
     | IF expr THEN expr ELSE expr { Cond ($2, $4, $6) }
     | FUN VAR LPAREN VAR COLON ty RPAREN COLON ty IS expr END { Fun (Name $2, Name $4, $6, $9, $11) }
+    | LET VAR EQUAL expr IN expr { LetIn (Name $2, $4, $6) }
+
 
 app :
       app non_app { Apply ($1, $2) }
@@ -74,6 +83,7 @@ non_app:
 
 arithmetic:
       MINUS INT { Int (-$2) }
+    | MINUS FLOAT { Float (-$2) }
     | expr PLUS expr { Plus ($1, $3) }
     | expr MINUS expr { Minus ($1, $3) }
     | expr TIMES expr { Times($1, $3) }

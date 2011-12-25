@@ -60,3 +60,32 @@ and typeOf ctx = function
         | TyFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; TApply(e1tast, typeOf ctx e2, ty2)
         | ty -> typeError (sprintf "%s has type %s which is not a function and can't be applied" (string e1) (string ty))
 
+    | LetIn (name, e1, e2) ->
+        let e1texpr = typeOf ctx e1
+        let e2texpr = typeOf ((name, e1texpr.Type) :: ctx) e2
+        TLetIn (name, e1texpr, e2texpr, e2texpr.Type)
+
+
+let rec erasureLetIn ctx = function
+    | TLetIn (x, texpr1, texpr2, ty) ->
+        let name = Name <| System.Guid.NewGuid().ToString()
+        let ctx' = (name, TyFun(texpr1.Type, texpr2.Type)) :: ctx 
+        let lambda = TFun(name, 
+                          x,
+                          texpr1.Type,
+                          texpr2.Type, 
+                          erasureLetIn ctx' texpr2,
+                          TyFun(texpr1.Type, texpr2.Type))
+        
+        TApply(lambda, texpr1, texpr2.Type)
+    | TVar _ | TInt _ | TFloat _ | TBool _ as e -> e
+    | TTimes (e1, e2, ty) -> TTimes (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
+    | TPlus (e1, e2, ty) -> TPlus (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
+    | TMinus (e1, e2, ty) -> TMinus (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
+    | TDivide (e1, e2, ty) -> TDivide (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
+    | TEqual (e1, e2) -> TEqual (erasureLetIn ctx e1, erasureLetIn ctx e2)
+    | TLess (e1, e2) -> TLess (erasureLetIn ctx e1, erasureLetIn ctx e2)
+    | TCond (e1, e2, e3, ty) -> TCond (erasureLetIn ctx e1, erasureLetIn ctx e2, erasureLetIn ctx e3, ty)
+    | TFun (f, x, ty1, ty2, e, ty) -> TFun (f, x, ty1, ty2, erasureLetIn ctx e, ty)
+    | TApply (e1, e2, ty) -> TApply (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
+    | _ -> failwith "Not implemented yet"

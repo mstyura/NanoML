@@ -1,16 +1,51 @@
-﻿
-let pi = 3.141592654;;
+﻿let pi = 3.141592654;;
 let e = 2.718281828;;
 
 let fact = 
-	fun e (n : int) : int is
+	fun e (n : int) : int =>
 		if n = 1 then 1
 		else n * e (n - 1)
-	end
+	end;;
 
-let fact_tr =
-	fun (n : int) : int is 
-		let a = 2 in
-		let b = 3 in
-		a + b + n
-	end
+let sqr =
+	fun sqr (n : int) : int =>
+		n * n
+	end;;
+
+let sqrf =
+	fun sqrfs(n : float) : float =>
+		n * n
+	end;;
+
+let abs =
+	fun abs(n : int) : int => 
+		if n < 0 then 0-n else n
+	end;;
+
+let absf =
+	fun absf (n : float) : float =>
+		if n < 0.0 then 0.0 - n else n
+	end;;
+
+let max =
+	fun f (a : int) : int -> int =>
+		fun g (b : int) : int =>
+			if a < b then b else a
+		end
+	end;;
+
+let maxf =
+	fun f (a : float) : float -> float =>
+		fun g (b : float) : float =>
+			if a < b then b else a
+		end
+	end;;
+
+(*
+let test = let a = 10 in let b = 20 + a in let c = a * b in let d = 12 in c - d 
+let test =
+	let a = 10 in
+	let b = 20 + a in
+	let c = a * b in
+	let d = 12 in
+	c - d *)

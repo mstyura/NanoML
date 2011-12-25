@@ -15,12 +15,13 @@ type texpr =
     | TCond of texpr * texpr * texpr * ty
     | TFun of name * name * ty * ty * texpr * ty
     | TApply of texpr * texpr * ty
+    | TLetIn of name * texpr * texpr * ty
     
     member texpr.Type =
         match texpr with
         | TVar (_, ty) | TTimes (_, _, ty) | TPlus (_, _, ty) | TMinus (_, _, ty)
         | TDivide (_, _, ty) | TCond (_, _, _, ty) | TFun (_, _, _, _, _, ty) 
-        | TApply (_, _, ty) -> ty
+        | TApply (_, _, ty) | TLetIn (_, _, _, ty) -> ty
         | TInt _ -> TyInt | TFloat _ -> TyFloat 
         | TBool _ | TEqual _ | TLess _ -> TyBool
 

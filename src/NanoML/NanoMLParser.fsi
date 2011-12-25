@@ -2,6 +2,7 @@
 module NanoML.Compiler.Parser
 type token = 
   | EOF
+  | IN
   | END
   | SEMICOLON2
   | LET
@@ -32,6 +33,7 @@ type token =
   | TINT
 type tokenId = 
     | TOKEN_EOF
+    | TOKEN_IN
     | TOKEN_END
     | TOKEN_SEMICOLON2
     | TOKEN_LET
@@ -63,6 +65,7 @@ type tokenId =
     | TOKEN_end_of_input
     | TOKEN_error
 type nonTerminalId = 
+    | NONTERM__startexpr
     | NONTERM__starttoplevel
     | NONTERM_toplevel
     | NONTERM_def
@@ -83,4 +86,5 @@ val prodIdxToNonTerminal: int -> nonTerminalId
 
 /// This function gets the name of a token as a string
 val token_to_string: token -> string
+val expr : (Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> (expr) 
 val toplevel : (Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> token) -> Microsoft.FSharp.Text.Lexing.LexBuffer<'cty> -> (toplevel_decl list) 
