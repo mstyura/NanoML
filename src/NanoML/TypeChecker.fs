@@ -33,12 +33,15 @@ and typeOf ctx = function
     | Plus (e1, e2) -> TPlus (checkBinOp ctx e1 e2 [TyInt; TyFloat])
     | Minus (e1, e2) -> TMinus (checkBinOp ctx e1 e2 [TyInt; TyFloat])
     | Divide (e1, e2) -> TDivide (checkBinOp ctx e1 e2 [TyInt; TyFloat])
+
     | Equal (e1, e2) -> 
         let te1, te2, _ = checkBinOp ctx e1 e2 [TyInt; TyFloat; TyBool] 
         TEqual (te1, te2)
+
     | Less (e1, e2) -> 
         let te1, te2, _ = checkBinOp ctx e1 e2 [TyInt; TyFloat] 
         TLess (te1, te2)
+
     | Cond (e1, e2, e3) ->
         check ctx TyBool e1;
         let ty = typeOf ctx e2
@@ -53,5 +56,4 @@ and typeOf ctx = function
         match (typeOf ctx e1).Type with
         | TyFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; TApply(typeOf ctx e1, typeOf ctx e2, ty2)
         | ty -> typeError (sprintf "%s has type %s which is not a function and can't be applied" (string e1) (string ty))
-    
-        
+

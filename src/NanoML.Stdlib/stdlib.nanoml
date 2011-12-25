@@ -1,6 +1,7 @@
-﻿let pi = 3.141592654;;
+﻿(*
+let pi = 3.141592654;;
 let e = 2.718281828;;
-
+*)
 let fact = 
 	fun e (n : int) : int is
 		if n = 1 then 1
