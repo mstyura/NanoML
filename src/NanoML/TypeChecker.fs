@@ -13,7 +13,8 @@ let typeError msg = raise (TypeError msg)
 let rec check ctx ty e =
     let ty' : texpr = typeOf ctx e
     if ty'.Type <> ty then
-        typeError (sprintf "%s has type %s but is used as if it has type %s" (string e) (string ty') (string ty))
+        typeError (sprintf "%s has type %O but is used as if it has type %O" (string e) ty' ty)
+    ty'
 
 and checkBinOp ctx e1 e2 types =
     match (typeOf ctx e1, typeOf ctx e2) with
@@ -43,17 +44,19 @@ and typeOf ctx = function
         TLess (te1, te2)
 
     | Cond (e1, e2, e3) ->
-        check ctx TyBool e1;
-        let ty = typeOf ctx e2
-        check ctx ty.Type e3 |> ignore; ty
+        let e1tast = check ctx TyBool e1
+        let e2tast = typeOf ctx e2
+        let e3tast = check ctx e2tast.Type e3
+        TCond(e1tast, e2tast, e3tast, e2tast.Type)
 
     | Fun (f, x, ty1, ty2, e) ->
         let ctx = (x, ty1) :: (f, TyFun(ty1, ty2)) :: ctx
-        check ctx ty2 e
-        TFun(f, x, ty1, ty2, typeOf ctx e, TyFun (ty1, ty2))
+        let texpr = check ctx ty2 e
+        TFun(f, x, ty1, ty2, texpr, TyFun (ty1, ty2))
 
     | Apply (e1, e2) ->
-        match (typeOf ctx e1).Type with
-        | TyFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; TApply(typeOf ctx e1, typeOf ctx e2, ty2)
+        let e1tast = typeOf ctx e1
+        match e1tast.Type with
+        | TyFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; TApply(e1tast, typeOf ctx e2, ty2)
         | ty -> typeError (sprintf "%s has type %s which is not a function and can't be applied" (string e1) (string ty))
 

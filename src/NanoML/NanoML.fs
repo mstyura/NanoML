@@ -17,6 +17,7 @@ type settings = { DumpDeclarations : bool
 
 let dumpVmCode (s : settings) (frm : VirtualMachine.frame) =
     if s.DumpVMCode then
+        printfn "dump VM code:"
         printfn "%s" (VirtualMachine.frame2string frm)
     frm
 

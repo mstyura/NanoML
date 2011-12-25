@@ -1,9 +1,16 @@
-﻿(*
+﻿
 let pi = 3.141592654;;
 let e = 2.718281828;;
-*)
+
 let fact = 
 	fun e (n : int) : int is
 		if n = 1 then 1
 		else n * e (n - 1)
+	end
+
+let fact_tr =
+	fun (n : int) : int is 
+		let a = 2 in
+		let b = 3 in
+		a + b + n
 	end
