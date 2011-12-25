@@ -3,26 +3,26 @@ open NanoML.Compiler.Ast
 
 type texpr =
     | TVar of name * ty
-    | TInt of int * ty
-    | TFloat of float * ty
-    | TBool of bool * ty
+    | TInt of int
+    | TFloat of float
+    | TBool of bool
     | TTimes of texpr * texpr * ty
     | TPlus of texpr * texpr * ty
     | TMinus of texpr * texpr * ty
     | TDivide of texpr * texpr * ty
-    | TEquals of texpr * texpr * ty
-    | TLess of texpr * texpr * ty
-    | TCond of texpr * texpr * ty
-    | TFun of name * name * ty * ty * expr * ty
-    | TApply of expr * expr * ty
+    | TEqual of texpr * texpr 
+    | TLess of texpr * texpr
+    | TCond of texpr * texpr * texpr * ty
+    | TFun of name * name * ty * ty * texpr * ty
+    | TApply of texpr * texpr * ty
     
-    member texpr.Type() =
+    member texpr.Type =
         match texpr with
-        | TVar (_, ty) | TInt(_, ty) | TFloat (_, ty) | TBool (_, ty)
-        | TTimes (_, _, ty) | TPlus (_, _, ty) | TMinus (_, _, ty)
-        | TDivide (_, _, ty) | TEquals (_, _, ty) | TLess (_, _, ty) 
-        | TCond (_, _, ty) | TFun (_, _, _, _, _, ty) 
+        | TVar (_, ty) | TTimes (_, _, ty) | TPlus (_, _, ty) | TMinus (_, _, ty)
+        | TDivide (_, _, ty) | TCond (_, _, _, ty) | TFun (_, _, _, _, _, ty) 
         | TApply (_, _, ty) -> ty
+        | TInt _ -> TyInt | TFloat _ -> TyFloat 
+        | TBool _ | TEqual _ | TLess _ -> TyBool
 
 
 type ttoplevel_decl =

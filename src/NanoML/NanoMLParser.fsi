@@ -2,6 +2,7 @@
 module NanoML.Compiler.Parser
 type token = 
   | EOF
+  | END
   | SEMICOLON2
   | LET
   | LPAREN
@@ -31,6 +32,7 @@ type token =
   | TINT
 type tokenId = 
     | TOKEN_EOF
+    | TOKEN_END
     | TOKEN_SEMICOLON2
     | TOKEN_LET
     | TOKEN_LPAREN

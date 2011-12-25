@@ -22,7 +22,8 @@ let keywords =
       "is", IS
       "let", LET
       "true", TRUE
-      "false", FALSE ]
+      "false", FALSE
+      "end", END ]
 
 let kwdMap = keywords |> Map.ofList
 

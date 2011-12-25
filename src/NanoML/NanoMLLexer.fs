@@ -23,7 +23,8 @@ let keywords =
       "is", IS
       "let", LET
       "true", TRUE
-      "false", FALSE ]
+      "false", FALSE
+      "end", END ]
 
 let kwdMap = keywords |> Map.ofList
 
@@ -32,7 +33,7 @@ let ident id =
     | Some v -> v | _ -> VAR id
 
 
-# 35 "..\src\NanoML\NanoMLLexer.fs"
+# 36 "..\src\NanoML\NanoMLLexer.fs"
 let trans : uint16[] array = 
     [| 
     (* State 0 *)
@@ -135,160 +136,160 @@ and string s pos (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_s
 and _fslex_token  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 45 "../src/NanoML/NanoMLLexer.fsl"
+# 46 "../src/NanoML/NanoMLLexer.fsl"
                                   token lexbuf 
-# 140 "..\src\NanoML\NanoMLLexer.fs"
+# 141 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 1 -> ( 
-# 46 "../src/NanoML/NanoMLLexer.fsl"
+# 47 "../src/NanoML/NanoMLLexer.fsl"
                                nextline lexbuf; token lexbuf 
-# 145 "..\src\NanoML\NanoMLLexer.fs"
+# 146 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 2 -> ( 
-# 47 "../src/NanoML/NanoMLLexer.fsl"
+# 48 "../src/NanoML/NanoMLLexer.fsl"
                              ident (lexeme lexbuf) 
-# 150 "..\src\NanoML\NanoMLLexer.fs"
+# 151 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 3 -> ( 
-# 48 "../src/NanoML/NanoMLLexer.fsl"
+# 49 "../src/NanoML/NanoMLLexer.fsl"
                                INT(System.Int32.Parse(lexeme lexbuf)) 
-# 155 "..\src\NanoML\NanoMLLexer.fs"
+# 156 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 4 -> ( 
-# 49 "../src/NanoML/NanoMLLexer.fsl"
+# 50 "../src/NanoML/NanoMLLexer.fsl"
                              FLOAT(System.Double.Parse(lexeme lexbuf)) 
-# 160 "..\src\NanoML\NanoMLLexer.fs"
+# 161 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 5 -> ( 
-# 50 "../src/NanoML/NanoMLLexer.fsl"
+# 51 "../src/NanoML/NanoMLLexer.fsl"
                             TARROW 
-# 165 "..\src\NanoML\NanoMLLexer.fs"
+# 166 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 6 -> ( 
-# 51 "../src/NanoML/NanoMLLexer.fsl"
+# 52 "../src/NanoML/NanoMLLexer.fsl"
                             SEMICOLON2 
-# 170 "..\src\NanoML\NanoMLLexer.fs"
+# 171 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 7 -> ( 
-# 52 "../src/NanoML/NanoMLLexer.fsl"
+# 53 "../src/NanoML/NanoMLLexer.fsl"
                            EQUAL 
-# 175 "..\src\NanoML\NanoMLLexer.fs"
+# 176 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 8 -> ( 
-# 53 "../src/NanoML/NanoMLLexer.fsl"
+# 54 "../src/NanoML/NanoMLLexer.fsl"
                            LESS 
-# 180 "..\src\NanoML\NanoMLLexer.fs"
+# 181 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 9 -> ( 
-# 54 "../src/NanoML/NanoMLLexer.fsl"
+# 55 "../src/NanoML/NanoMLLexer.fsl"
                            COLON 
-# 185 "..\src\NanoML\NanoMLLexer.fs"
+# 186 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 10 -> ( 
-# 55 "../src/NanoML/NanoMLLexer.fsl"
+# 56 "../src/NanoML/NanoMLLexer.fsl"
                            LPAREN 
-# 190 "..\src\NanoML\NanoMLLexer.fs"
+# 191 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 11 -> ( 
-# 56 "../src/NanoML/NanoMLLexer.fsl"
+# 57 "../src/NanoML/NanoMLLexer.fsl"
                            RPAREN 
-# 195 "..\src\NanoML\NanoMLLexer.fs"
+# 196 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 12 -> ( 
-# 57 "../src/NanoML/NanoMLLexer.fsl"
+# 58 "../src/NanoML/NanoMLLexer.fsl"
                            PLUS 
-# 200 "..\src\NanoML\NanoMLLexer.fs"
+# 201 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 13 -> ( 
-# 58 "../src/NanoML/NanoMLLexer.fsl"
+# 59 "../src/NanoML/NanoMLLexer.fsl"
                            MINUS 
-# 205 "..\src\NanoML\NanoMLLexer.fs"
+# 206 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 14 -> ( 
-# 59 "../src/NanoML/NanoMLLexer.fsl"
+# 60 "../src/NanoML/NanoMLLexer.fsl"
                            DIVIDE 
-# 210 "..\src\NanoML\NanoMLLexer.fs"
+# 211 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 15 -> ( 
-# 60 "../src/NanoML/NanoMLLexer.fsl"
+# 61 "../src/NanoML/NanoMLLexer.fsl"
                            TIMES 
-# 215 "..\src\NanoML\NanoMLLexer.fs"
+# 216 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 16 -> ( 
-# 61 "../src/NanoML/NanoMLLexer.fsl"
+# 62 "../src/NanoML/NanoMLLexer.fsl"
                            EOF 
-# 220 "..\src\NanoML\NanoMLLexer.fs"
+# 221 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 17 -> ( 
-# 62 "../src/NanoML/NanoMLLexer.fsl"
+# 63 "../src/NanoML/NanoMLLexer.fsl"
                             STRING(string "" lexbuf.StartPos lexbuf) 
-# 225 "..\src\NanoML\NanoMLLexer.fs"
+# 226 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 18 -> ( 
-# 63 "../src/NanoML/NanoMLLexer.fsl"
+# 64 "../src/NanoML/NanoMLLexer.fsl"
                             comment lexbuf; token lexbuf 
-# 230 "..\src\NanoML\NanoMLLexer.fs"
+# 231 "..\src\NanoML\NanoMLLexer.fs"
           )
   | _ -> failwith "token"
 (* Rule comment *)
 and _fslex_comment  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 66 "../src/NanoML/NanoMLLexer.fsl"
+# 67 "../src/NanoML/NanoMLLexer.fsl"
                         comment lexbuf; comment lexbuf 
-# 239 "..\src\NanoML\NanoMLLexer.fs"
+# 240 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 1 -> ( 
-# 68 "../src/NanoML/NanoMLLexer.fsl"
+# 69 "../src/NanoML/NanoMLLexer.fsl"
                         () 
-# 244 "..\src\NanoML\NanoMLLexer.fs"
+# 245 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 2 -> ( 
-# 70 "../src/NanoML/NanoMLLexer.fsl"
+# 71 "../src/NanoML/NanoMLLexer.fsl"
                         nextline lexbuf; comment lexbuf 
-# 249 "..\src\NanoML\NanoMLLexer.fs"
+# 250 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 3 -> ( 
-# 72 "../src/NanoML/NanoMLLexer.fsl"
+# 73 "../src/NanoML/NanoMLLexer.fsl"
                      comment lexbuf 
-# 254 "..\src\NanoML\NanoMLLexer.fs"
+# 255 "..\src\NanoML\NanoMLLexer.fs"
           )
   | _ -> failwith "comment"
 (* Rule string *)
 and _fslex_string s pos _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 75 "../src/NanoML/NanoMLLexer.fsl"
+# 76 "../src/NanoML/NanoMLLexer.fsl"
                                                 let s' = s +
                                                     match lexeme lexbuf with
                                                     | "\\n" -> "\n" | "\\r" -> "\r"
                                                     | "\\t" -> "\t" | "\\\"" -> "\""
                                                     | _ -> failwith "not possible"
                                                 string s' pos lexbuf 
-# 268 "..\src\NanoML\NanoMLLexer.fs"
+# 269 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 1 -> ( 
-# 82 "../src/NanoML/NanoMLLexer.fsl"
+# 83 "../src/NanoML/NanoMLLexer.fsl"
                         nextline lexbuf; string (s + "\n") pos lexbuf 
-# 273 "..\src\NanoML\NanoMLLexer.fs"
+# 274 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 2 -> ( 
-# 84 "../src/NanoML/NanoMLLexer.fsl"
+# 85 "../src/NanoML/NanoMLLexer.fsl"
                         s 
-# 278 "..\src\NanoML\NanoMLLexer.fs"
+# 279 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 3 -> ( 
-# 86 "../src/NanoML/NanoMLLexer.fsl"
+# 87 "../src/NanoML/NanoMLLexer.fsl"
                        failwithf "unexpected end of string began at %A" pos 
-# 283 "..\src\NanoML\NanoMLLexer.fs"
+# 284 "..\src\NanoML\NanoMLLexer.fs"
           )
   | 4 -> ( 
-# 88 "../src/NanoML/NanoMLLexer.fsl"
+# 89 "../src/NanoML/NanoMLLexer.fsl"
                      string (s + lexeme lexbuf) pos lexbuf 
-# 288 "..\src\NanoML\NanoMLLexer.fs"
+# 289 "..\src\NanoML\NanoMLLexer.fs"
           )
   | _ -> failwith "string"
 
-# 88 "../src/NanoML/NanoMLLexer.fsl"
+# 89 "../src/NanoML/NanoMLLexer.fsl"
 
 # 3000000 "..\src\NanoML\NanoMLLexer.fs"

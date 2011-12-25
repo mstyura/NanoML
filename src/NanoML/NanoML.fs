@@ -22,16 +22,16 @@ let dumpVmCode (s : settings) (frm : VirtualMachine.frame) =
 
 let execCmd (s : settings) (ctx, env) = function
     | Expr e ->
-        let ty = TypeChecker.typeOf ctx e
-        let frm = Emitter.emit e |> dumpVmCode s
+        let tast = TypeChecker.typeOf ctx e
+        let frm = Emitter.emit tast |> dumpVmCode s
         let v = VirtualMachine.run frm env
-        (ctx, env), sprintf "val it : %s = %s" (string ty) (string v)
+        (ctx, env), sprintf "val it : %s = %s" (string tast.Type) (string v)
 
     | LetBinding (x, e) ->
-         let ty = TypeChecker.typeOf ctx e
-         let frm = Emitter.emit e |> dumpVmCode s
+         let tast = TypeChecker.typeOf ctx e
+         let frm = Emitter.emit tast |> dumpVmCode s
          let v = VirtualMachine.run frm env
-         ((x, ty) :: ctx, (x, ref v) :: env), sprintf "val %s : %s = %s" (string x) (string ty) (string v)
+         ((x, tast.Type) :: ctx, (x, ref v) :: env), sprintf "val %s : %s = %s" (string x) (string tast.Type) (string v)
 
 
 let execCmds (s : settings) ce cmds =

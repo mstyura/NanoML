@@ -1,20 +1,50 @@
 module NanoML.Compiler.Emitter
-
+open NanoML.Utils
 open NanoML.Compiler.Ast
+open NanoML.Compiler.TAst
 open NanoML.VirtualMachine
 
+let private times =
+    let map = Map.ofList [(TyInt, IMulti); (TyFloat, IMultf)] 
+    fun ty -> map.[ty]
+
+
+let private minus =
+    let map = Map.ofList [(TyInt, ISubi); (TyFloat, ISubf)]
+    fun ty -> map.[ty]
+
+
+let private plus = 
+    let map = Map.ofList [(TyInt, IAddi); (TyFloat, IAddf)]
+    fun ty -> map.[ty]
+
+
+let private div = 
+    let map = Map.ofList [(TyInt, IDivi); (TyFloat, IDivf)]
+    fun ty -> map.[ty]
+
+
+let private eq =
+    let map = Map.ofList [(TyInt, IEquali); (TyFloat, IEqualf)]
+    fun ty -> map.[ty]
+
+
+let private less =
+    let map = Map.ofList [(TyInt, ILessi); (TyFloat, ILessf)]
+    fun ty -> map.[ty]
+
+
 let rec emit = function
-    | Var x -> [ILdVar x]
-    | Int i -> [ILdInt i]
-    | Float f -> [ILdFloat f]
-    | Bool b -> [ILdBool b]
-    // TODO: add type checking and generate appropriate "opcodes"
-    | Times (e1, e2) -> (emit e1) @ (emit e2) @ [IMulti]
-    | Minus (e1, e2) -> (emit e1) @ (emit e2) @ [ISubi]
-    | Plus (e1, e2) -> (emit e1) @ (emit e2) @ [IAddi]
-    | Divide (e1, e2) -> (emit e1) @ (emit e2) @ [IDivi]
-    | Equal (e1, e2) -> (emit e1) @ (emit e2) @ [IEquali]
-    | Less (e1, e2) -> (emit e1) @ (emit e2) @ [ILessi]
-    | Fun (f, x, _, _, e) -> [ILdClosure (f, x, emit e @ [IPopEnv])]
-    | Cond (e1, e2, e3) -> (emit e1) @ [IBranch (emit e2, emit e3)]
-    | Apply (e1, e2) -> (emit e1) @ (emit e2) @ [ICall]
+    | TVar (x, _) -> [ILdVar x]
+    | TInt i -> [ILdInt i]
+    | TFloat f -> [ILdFloat f]
+    | TBool b -> [ILdBool b]
+    | TTimes (e1, e2, ty) -> (emit e1) @ (emit e2) @ [times ty]
+    | TMinus (e1, e2, ty) -> (emit e1) @ (emit e2) @ [minus ty]
+    | TPlus (e1, e2, ty) -> (emit e1) @ (emit e2) @ [plus ty]
+    | TDivide (e1, e2, ty) -> (emit e1) @ (emit e2) @ [div ty]
+    | TEqual (e1, e2) -> (emit e1) @ (emit e2) @ [eq e1.Type]
+    | TLess (e1, e2) -> (emit e1) @ (emit e2) @ [less e1.Type]
+    | TFun (f, x, _, _, e, _) -> [ILdClosure (f, x, emit e @ [IPopEnv])]
+    | TCond (e1, e2, e3, _) -> (emit e1) @ [IBranch (emit e2, emit e3)]
+    | TApply (e1, e2, _) -> (emit e1) @ (emit e2) @ [ICall]
