@@ -41,11 +41,27 @@ let maxf =
 		end
 	end;;
 
+let fact_tr =
+	fun f (n : int) : int =>
+		let run = fun loop (n : int) : int -> int =>
+			fun h (acc : int) : int =>
+				if n = 1 then acc
+				else loop (n - 1) (n * acc)
+			end
+		end
+			in
+		run n 1
+	end;;
+
 (*
-let test = let a = 10 in let b = 20 + a in let c = a * b in let d = 12 in c - d 
+
 let test =
 	let a = 10 in
 	let b = 20 + a in
 	let c = a * b in
 	let d = 12 in
-	c - d *)
+	c - d;;
+
+let testSuccess = test = 288;;
+
+*)

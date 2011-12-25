@@ -32,11 +32,11 @@ let ident id =
     | Some v -> v | _ -> VAR id
 
 }
-
-let ident = ['a' - 'z' 'A' - 'Z']+
+let digit = ['0' - '9']
+let letter = ['a' - 'z' 'A' - 'Z']
+let ident = letter (letter | digit | ['_'])*
 let newline = '\n' | '\r' '\n'
 let whitespace = [' ' '\t']
-let digit = '\Nd'
 let integer = digit+
 let floatp = digit+ '.' digit*  
 let floate = digit+ ('.' digit* )? ('e'| 'E') ['+' '-']? digit+

@@ -69,6 +69,7 @@ type toplevel_decl =
     | Expr of expr
     | LetBinding of name * expr
 
+(*
 
 let rec subst s = function
     | Var x as e -> match List.assoc x s with Some v -> v | _ -> e
@@ -85,3 +86,5 @@ let rec subst s = function
         Fun(f, x, tyIn, tyOut, subst s' e)
     | Apply (e1, e2) -> Apply (subst s e1, subst s e2)
     | LetIn (var, e1, e2) -> LetIn(var, e1, subst ((var, e1) :: s) e2)
+
+*)

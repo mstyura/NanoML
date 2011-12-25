@@ -19,13 +19,13 @@ type settings = { DumpDeclarations : bool
 
 let inline dumpVmCode (s : settings) (frm : VirtualMachine.frame) =
     if s.DumpVMCode then
-        printfn "dump VM code:"
+        printfn "\ndump VM code:"
         printfn "%s" (VirtualMachine.frame2string frm)
     frm
 
 let inline dumpTAst (s : settings) (texpr : texpr) = 
     if s.DumpTAst then
-        printfn "dump typed abstract syntax tree:"
+        printfn "\ndump typed abstract syntax tree:"
         printfn "%A" texpr
     texpr
    
@@ -51,7 +51,7 @@ let execCmds (s : settings) ce cmds =
 
 let dumpDeclarations (settings : settings) (decls : toplevel_decl list) =
     if settings.DumpDeclarations then
-        printfn "declarations dump:"
+        printfn "\ndeclarations dump:"
         for decl in decls do 
             printfn "%A" decl
     decls
