@@ -7,6 +7,9 @@ open NanoML.Compiler.Parser
 
 let lexeme = LexBuffer<_>.LexemeString
 
+let inline nextline (lexbuf : LexBuffer<_>) =
+    lexbuf.EndPos <- lexbuf.EndPos.NextLine
+    lexbuf
 
 let keywords =
     [ "if", IF
@@ -40,7 +43,7 @@ let float = floatp | floate
 
 rule token = parse
       whitespace { token lexbuf }
-    | newline { lexbuf.EndPos <- lexbuf.EndPos.NextLine; token lexbuf }
+    | newline { nextline lexbuf; token lexbuf }
     | ident { ident (lexeme lexbuf) }
     | integer { INT(System.Int32.Parse(lexeme lexbuf)) }
     | float { FLOAT(System.Double.Parse(lexeme lexbuf)) }
@@ -56,3 +59,30 @@ rule token = parse
     | '/' { DIVIDE }
     | '*' { TIMES }
     | eof { EOF }
+    | '\"' { STRING(string "" lexbuf.StartPos lexbuf) }
+    | "(*" { comment lexbuf; token lexbuf }
+
+and comment = parse
+| "(*" { comment lexbuf; comment lexbuf }
+
+| "*)" { () }
+
+| '\n' { nextline lexbuf; comment lexbuf }
+
+| _ { comment lexbuf }
+
+and string s pos = parse
+| "\\" ('n' | 'r' | 't' | '"') { let s' = s +
+                                     match lexeme lexbuf with
+                                     | "\\n" -> "\n" | "\\r" -> "\r"
+                                     | "\\t" -> "\t" | "\\\"" -> "\""
+                                     | _ -> failwith "not possible"
+                                 string s' pos lexbuf }
+
+| "\n" { nextline lexbuf; string (s + "\n") pos lexbuf }
+
+| '\"' { s }
+
+| eof { failwithf "unexpected end of string began at %A" pos }
+
+| _ { string (s + lexeme lexbuf) pos lexbuf }

@@ -23,6 +23,7 @@
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>bin\Debug\NanoML.XML</DocumentationFile>
+    <StartArguments>--DumpDecl --DumpVMCode ../../../NanoML.Stdlib/stdlib.nanoml</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +40,7 @@
   <ItemGroup>
     <Compile Include="List.fs" />
     <Compile Include="NanoMLAst.fs" />
+    <Compile Include="NanoMLTAst.fs" />
     <Compile Include="TypeChecker.fs" />
     <Compile Include="NanoMLParser.fs" />
     <Compile Include="NanoMLLexer.fs" />

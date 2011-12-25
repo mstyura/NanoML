@@ -10,6 +10,7 @@ open NanoML.Compiler.Ast
 %token <int> INT
 %token <float> FLOAT
 %token <bool> BOOL
+%token <string> STRING
 %token TRUE FALSE
 %token PLUS MINUS TIMES DIVIDE
 %token EQUAL LESS
@@ -57,7 +58,6 @@ expr:
     | IF expr THEN expr ELSE expr { Cond ($2, $4, $6) }
     | FUN VAR LPAREN VAR COLON ty RPAREN COLON ty IS expr { Fun (Name $2, Name $4, $6, $9, $11) }
 
-
 app :
       app non_app { Apply ($1, $2) }
     | non_app non_app { Apply ($1, $2) }
@@ -68,6 +68,7 @@ non_app:
     | TRUE { Bool true }
     | FALSE { Bool false }
     | INT { Int $1 }
+    | FLOAT { Float $1 }
     | LPAREN expr RPAREN { $2 }
 
 arithmetic:
@@ -82,10 +83,10 @@ cond:
     | expr LESS expr { Less ($1, $3) }
 
 ty:
-      TBOOL { TBool }
-    | TINT { TInt }
-    | TFLOAT { TFloat }
-    | ty TARROW ty { TFun ($1, $3) }
+      TBOOL { TyBool }
+    | TINT { TyInt }
+    | TFLOAT { TyFloat }
+    | ty TARROW ty { TyFun ($1, $3) }
     | LPAREN ty RPAREN { $2 }
 
 %%

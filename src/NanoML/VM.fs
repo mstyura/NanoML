@@ -26,7 +26,7 @@ and mvalue =
     override m.ToString() =
         match m with
         | MInt v -> string v
-        | MFloat v -> string v
+        | MFloat v -> sprintf "%f" v
         | MBool v -> string v
         | MClosure _ -> "<fun>"
 
@@ -53,6 +53,13 @@ and instr =
     | ICall 
     | IPopEnv
 
+
+let frame2string (frm : frame) =
+    let rec loop frm =
+        match frm with
+        | h :: t -> sprintf "%A" h + "\n" + loop t
+        | [] -> ""
+    loop frm 
 
 
 let error msg = raise (RuntimeError msg)
@@ -131,11 +138,9 @@ let execute instr frms stck (envs : env list) =
     | ILdClosure (f, x, frm) ->
         match envs with
         | env :: _ ->
-            // TODO: seems like its not compiles
             let c' = ref Unchecked.defaultof<mvalue>
             let c = MClosure (x, frm, (f, c') :: env)
             c' := c
-            
             frms, c :: stck, envs
         | [] -> error "no environment for a closure"
 

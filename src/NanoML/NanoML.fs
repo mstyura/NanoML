@@ -15,23 +15,27 @@ type env = (name * VirtualMachine.mvalue) list
 type settings = { DumpDeclarations : bool
                   DumpVMCode : bool }
 
+let dumpVmCode (s : settings) (frm : VirtualMachine.frame) =
+    if s.DumpVMCode then
+        printfn "%s" (VirtualMachine.frame2string frm)
+    frm
 
-let execCmd (ctx, env) = function
+let execCmd (s : settings) (ctx, env) = function
     | Expr e ->
         let ty = TypeChecker.typeOf ctx e
-        let frm = Emitter.emit e
+        let frm = Emitter.emit e |> dumpVmCode s
         let v = VirtualMachine.run frm env
         (ctx, env), sprintf "val it : %s = %s" (string ty) (string v)
 
     | LetBinding (x, e) ->
          let ty = TypeChecker.typeOf ctx e
-         let frm = Emitter.emit e
+         let frm = Emitter.emit e |> dumpVmCode s
          let v = VirtualMachine.run frm env
          ((x, ty) :: ctx, (x, ref v) :: env), sprintf "val %s : %s = %s" (string x) (string ty) (string v)
 
 
-let execCmds ce cmds =
-    List.fold (fun ce cmd -> let ce', msg = execCmd ce cmd in printfn "%s" msg; ce') ce cmds
+let execCmds (s : settings) ce cmds =
+    List.fold (fun ce cmd -> let ce', msg = execCmd s ce cmd in printfn "%s" msg; ce') ce cmds
 
 let dumpDeclarations (settings : settings) (decls : toplevel_decl list) =
     if settings.DumpDeclarations then
@@ -53,7 +57,7 @@ let interactive (settings : settings) ctx env =
                 printf "NanoML> "
                 let str = System.Console.ReadLine()
                 let decls = Parser.toplevel Lexer.token (LexBuffer<_>.FromString str) |> dumpDeclarations settings
-                let (ctx, env) = execCmds (!globalCtx, !globalEnv) decls
+                let (ctx, env) = execCmds settings (!globalCtx, !globalEnv) decls
                 globalCtx := ctx
                 globalEnv := env
             with
@@ -78,14 +82,15 @@ let main (args : string array) =
          "Usage: nanoml [-n] [file] ...")
     
     try
+        let settings = { DumpDeclarations = !dumpDecl; DumpVMCode = !dumpVmCode }
         let ctx, env =
             List.fold
                 (fun ce f ->
                     let text = File.ReadAllText f
                     let lexbuf = LexBuffer<_>.FromString text
                     let cmds = Parser.toplevel Lexer.token lexbuf
-                    execCmds ce cmds) ([], []) !files
-        if not !nonInteractive then interactive { DumpDeclarations = !dumpDecl; DumpVMCode = !dumpVmCode } ctx env
+                    execCmds settings ce cmds) ([], []) !files
+        if not !nonInteractive then interactive settings ctx env
         0
     with
         | TypeChecker.TypeError msg -> printfn "Type error: %s" msg; 1

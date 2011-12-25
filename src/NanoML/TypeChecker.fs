@@ -25,25 +25,25 @@ and checkBinOp ctx e1 e2 types =
 
 and typeOf ctx = function
     | Var x -> match List.assoc x ctx with Some v -> v | _ -> typeError ("undefined variable" + string x)
-    | Int _ -> TInt
-    | Float _ -> TFloat
-    | Bool _ -> TBool
-    | Times (e1, e2) -> checkBinOp ctx e1 e2 [TInt; TFloat]
-    | Plus (e1, e2) -> checkBinOp ctx e1 e2 [TInt; TFloat]
-    | Minus (e1, e2) -> checkBinOp ctx e1 e2 [TInt; TFloat]
-    | Divide (e1, e2) -> checkBinOp ctx e1 e2 [TInt; TFloat]
-    | Equal (e1, e2) -> checkBinOp ctx e1 e2 [TInt; TFloat; TBool] |> ignore; TBool
-    | Less (e1, e2) -> checkBinOp ctx e1 e2 [TInt; TFloat] |> ignore; TBool
+    | Int _ -> TyInt
+    | Float _ -> TyFloat
+    | Bool _ -> TyBool
+    | Times (e1, e2) -> checkBinOp ctx e1 e2 [TyInt; TyFloat]
+    | Plus (e1, e2) -> checkBinOp ctx e1 e2 [TyInt; TyFloat]
+    | Minus (e1, e2) -> checkBinOp ctx e1 e2 [TyInt; TyFloat]
+    | Divide (e1, e2) -> checkBinOp ctx e1 e2 [TyInt; TyFloat]
+    | Equal (e1, e2) -> checkBinOp ctx e1 e2 [TyInt; TyFloat; TyBool] |> ignore; TyBool
+    | Less (e1, e2) -> checkBinOp ctx e1 e2 [TyInt; TyFloat] |> ignore; TyBool
     | Cond (e1, e2, e3) ->
-        check ctx TBool e1;
+        check ctx TyBool e1;
         let ty = typeOf ctx e2
         check ctx ty e3 |> ignore; ty
     | Fun (f, x, ty1, ty2, e) ->
-        check ((x, ty1) :: (f, ty2) :: ctx) ty2 e
-        TFun (ty1, ty2)
+        check ((x, ty1) :: (f, TyFun(ty1, ty2)) :: ctx) ty2 e
+        TyFun (ty1, ty2)
     | Apply (e1, e2) ->
         match typeOf ctx e1 with
-        | TFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; ty2
+        | TyFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; ty2
         | ty -> typeError (sprintf "%s has type %s which is not a function and can't be applied" (string e1) (string ty))
     
         

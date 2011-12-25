@@ -3,11 +3,11 @@ module NanoML.Compiler.Parser
 #nowarn "64";; // turn off warnings that type variables used in production annotations are instantiated to concrete type
 open Microsoft.FSharp.Text.Lexing
 open Microsoft.FSharp.Text.Parsing.ParseHelpers
-# 1 "NanoMLParser.fsy"
+# 1 "../src/NanoML/NanoMLParser.fsy"
 
 open NanoML.Compiler.Ast
 
-# 10 "NanoMLParser.fs"
+# 10 "..\src\NanoML\NanoMLParser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
   | EOF
@@ -29,6 +29,7 @@ type token =
   | DIVIDE
   | TRUE
   | FALSE
+  | STRING of (string)
   | BOOL of (bool)
   | FLOAT of (float)
   | INT of (int)
@@ -58,6 +59,7 @@ type tokenId =
     | TOKEN_DIVIDE
     | TOKEN_TRUE
     | TOKEN_FALSE
+    | TOKEN_STRING
     | TOKEN_BOOL
     | TOKEN_FLOAT
     | TOKEN_INT
@@ -102,14 +104,15 @@ let tagOfToken (t:token) =
   | DIVIDE  -> 16 
   | TRUE  -> 17 
   | FALSE  -> 18 
-  | BOOL _ -> 19 
-  | FLOAT _ -> 20 
-  | INT _ -> 21 
-  | VAR _ -> 22 
-  | TARROW  -> 23 
-  | TBOOL  -> 24 
-  | TFLOAT  -> 25 
-  | TINT  -> 26 
+  | STRING _ -> 19 
+  | BOOL _ -> 20 
+  | FLOAT _ -> 21 
+  | INT _ -> 22 
+  | VAR _ -> 23 
+  | TARROW  -> 24 
+  | TBOOL  -> 25 
+  | TFLOAT  -> 26 
+  | TINT  -> 27 
 
 // This function maps integers indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
@@ -133,16 +136,17 @@ let tokenTagToTokenId (tokenIdx:int) =
   | 16 -> TOKEN_DIVIDE 
   | 17 -> TOKEN_TRUE 
   | 18 -> TOKEN_FALSE 
-  | 19 -> TOKEN_BOOL 
-  | 20 -> TOKEN_FLOAT 
-  | 21 -> TOKEN_INT 
-  | 22 -> TOKEN_VAR 
-  | 23 -> TOKEN_TARROW 
-  | 24 -> TOKEN_TBOOL 
-  | 25 -> TOKEN_TFLOAT 
-  | 26 -> TOKEN_TINT 
-  | 29 -> TOKEN_end_of_input
-  | 27 -> TOKEN_error
+  | 19 -> TOKEN_STRING 
+  | 20 -> TOKEN_BOOL 
+  | 21 -> TOKEN_FLOAT 
+  | 22 -> TOKEN_INT 
+  | 23 -> TOKEN_VAR 
+  | 24 -> TOKEN_TARROW 
+  | 25 -> TOKEN_TBOOL 
+  | 26 -> TOKEN_TFLOAT 
+  | 27 -> TOKEN_TINT 
+  | 30 -> TOKEN_end_of_input
+  | 28 -> TOKEN_error
   | _ -> failwith "tokenTagToTokenId: bad token"
 
 /// This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
@@ -170,22 +174,23 @@ let prodIdxToNonTerminal (prodIdx:int) =
     | 19 -> NONTERM_non_app 
     | 20 -> NONTERM_non_app 
     | 21 -> NONTERM_non_app 
-    | 22 -> NONTERM_arithmetic 
+    | 22 -> NONTERM_non_app 
     | 23 -> NONTERM_arithmetic 
     | 24 -> NONTERM_arithmetic 
     | 25 -> NONTERM_arithmetic 
     | 26 -> NONTERM_arithmetic 
-    | 27 -> NONTERM_cond 
+    | 27 -> NONTERM_arithmetic 
     | 28 -> NONTERM_cond 
-    | 29 -> NONTERM_ty 
+    | 29 -> NONTERM_cond 
     | 30 -> NONTERM_ty 
     | 31 -> NONTERM_ty 
     | 32 -> NONTERM_ty 
     | 33 -> NONTERM_ty 
+    | 34 -> NONTERM_ty 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
-let _fsyacc_endOfInputTag = 29 
-let _fsyacc_tagOfErrorTerminal = 27
+let _fsyacc_endOfInputTag = 30 
+let _fsyacc_tagOfErrorTerminal = 28
 
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
@@ -209,6 +214,7 @@ let token_to_string (t:token) =
   | DIVIDE  -> "DIVIDE" 
   | TRUE  -> "TRUE" 
   | FALSE  -> "FALSE" 
+  | STRING _ -> "STRING" 
   | BOOL _ -> "BOOL" 
   | FLOAT _ -> "FLOAT" 
   | INT _ -> "INT" 
@@ -240,6 +246,7 @@ let _fsyacc_dataOfToken (t:token) =
   | DIVIDE  -> (null : System.Object) 
   | TRUE  -> (null : System.Object) 
   | FALSE  -> (null : System.Object) 
+  | STRING _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | BOOL _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | FLOAT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | INT _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
@@ -248,18 +255,18 @@ let _fsyacc_dataOfToken (t:token) =
   | TBOOL  -> (null : System.Object) 
   | TFLOAT  -> (null : System.Object) 
   | TINT  -> (null : System.Object) 
-let _fsyacc_gotos = [| 0us; 65535us; 3us; 65535us; 0us; 1us; 7us; 11us; 10us; 12us; 3us; 65535us; 0us; 5us; 7us; 5us; 10us; 5us; 15us; 65535us; 0us; 8us; 7us; 8us; 10us; 8us; 15us; 16us; 21us; 22us; 23us; 24us; 25us; 26us; 36us; 37us; 44us; 45us; 55us; 49us; 56us; 50us; 57us; 51us; 58us; 52us; 59us; 53us; 60us; 54us; 15us; 65535us; 0us; 18us; 7us; 18us; 10us; 18us; 15us; 18us; 21us; 18us; 23us; 18us; 25us; 18us; 36us; 18us; 44us; 18us; 55us; 18us; 56us; 18us; 57us; 18us; 58us; 18us; 59us; 18us; 60us; 18us; 17us; 65535us; 0us; 17us; 7us; 17us; 10us; 17us; 15us; 17us; 17us; 39us; 18us; 38us; 21us; 17us; 23us; 17us; 25us; 17us; 36us; 17us; 44us; 17us; 55us; 17us; 56us; 17us; 57us; 17us; 58us; 17us; 59us; 17us; 60us; 17us; 15us; 65535us; 0us; 19us; 7us; 19us; 10us; 19us; 15us; 19us; 21us; 19us; 23us; 19us; 25us; 19us; 36us; 19us; 44us; 19us; 55us; 19us; 56us; 19us; 57us; 19us; 58us; 19us; 59us; 19us; 60us; 19us; 15us; 65535us; 0us; 20us; 7us; 20us; 10us; 20us; 15us; 20us; 21us; 20us; 23us; 20us; 25us; 20us; 36us; 20us; 44us; 20us; 55us; 20us; 56us; 20us; 57us; 20us; 58us; 20us; 59us; 20us; 60us; 20us; 4us; 65535us; 31us; 32us; 34us; 35us; 66us; 64us; 67us; 65us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 3us; 65535us; 0us; 1us; 7us; 11us; 10us; 12us; 3us; 65535us; 0us; 5us; 7us; 5us; 10us; 5us; 15us; 65535us; 0us; 8us; 7us; 8us; 10us; 8us; 15us; 16us; 21us; 22us; 23us; 24us; 25us; 26us; 36us; 37us; 45us; 46us; 56us; 50us; 57us; 51us; 58us; 52us; 59us; 53us; 60us; 54us; 61us; 55us; 15us; 65535us; 0us; 18us; 7us; 18us; 10us; 18us; 15us; 18us; 21us; 18us; 23us; 18us; 25us; 18us; 36us; 18us; 45us; 18us; 56us; 18us; 57us; 18us; 58us; 18us; 59us; 18us; 60us; 18us; 61us; 18us; 17us; 65535us; 0us; 17us; 7us; 17us; 10us; 17us; 15us; 17us; 17us; 39us; 18us; 38us; 21us; 17us; 23us; 17us; 25us; 17us; 36us; 17us; 45us; 17us; 56us; 17us; 57us; 17us; 58us; 17us; 59us; 17us; 60us; 17us; 61us; 17us; 15us; 65535us; 0us; 19us; 7us; 19us; 10us; 19us; 15us; 19us; 21us; 19us; 23us; 19us; 25us; 19us; 36us; 19us; 45us; 19us; 56us; 19us; 57us; 19us; 58us; 19us; 59us; 19us; 60us; 19us; 61us; 19us; 15us; 65535us; 0us; 20us; 7us; 20us; 10us; 20us; 15us; 20us; 21us; 20us; 23us; 20us; 25us; 20us; 36us; 20us; 45us; 20us; 56us; 20us; 57us; 20us; 58us; 20us; 59us; 20us; 60us; 20us; 61us; 20us; 4us; 65535us; 31us; 32us; 34us; 35us; 67us; 65us; 68us; 66us; |]
 let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 5us; 9us; 25us; 41us; 59us; 75us; 91us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 2us; 1us; 3us; 2us; 1us; 5us; 3us; 2us; 3us; 6us; 1us; 2us; 2us; 3us; 6us; 9us; 4us; 5us; 7us; 23us; 24us; 25us; 26us; 27us; 28us; 1us; 4us; 2us; 5us; 7us; 1us; 6us; 1us; 7us; 1us; 8us; 1us; 8us; 1us; 8us; 7us; 8us; 23us; 24us; 25us; 26us; 27us; 28us; 2us; 9us; 16us; 2us; 10us; 15us; 1us; 11us; 1us; 12us; 1us; 13us; 7us; 13us; 23us; 24us; 25us; 26us; 27us; 28us; 1us; 13us; 7us; 13us; 23us; 24us; 25us; 26us; 27us; 28us; 1us; 13us; 7us; 13us; 23us; 24us; 25us; 26us; 27us; 28us; 1us; 14us; 1us; 14us; 1us; 14us; 1us; 14us; 1us; 14us; 2us; 14us; 32us; 1us; 14us; 1us; 14us; 2us; 14us; 32us; 1us; 14us; 7us; 14us; 23us; 24us; 25us; 26us; 27us; 28us; 1us; 15us; 1us; 16us; 1us; 17us; 1us; 18us; 1us; 19us; 1us; 20us; 1us; 21us; 7us; 21us; 23us; 24us; 25us; 26us; 27us; 28us; 1us; 21us; 1us; 22us; 1us; 22us; 7us; 23us; 23us; 24us; 25us; 26us; 27us; 28us; 7us; 23us; 24us; 24us; 25us; 26us; 27us; 28us; 7us; 23us; 24us; 25us; 25us; 26us; 27us; 28us; 7us; 23us; 24us; 25us; 26us; 26us; 27us; 28us; 7us; 23us; 24us; 25us; 26us; 27us; 27us; 28us; 7us; 23us; 24us; 25us; 26us; 27us; 28us; 28us; 1us; 23us; 1us; 24us; 1us; 25us; 1us; 26us; 1us; 27us; 1us; 28us; 1us; 29us; 1us; 30us; 1us; 31us; 2us; 32us; 32us; 2us; 32us; 33us; 1us; 32us; 1us; 33us; 1us; 33us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 9us; 12us; 16us; 18us; 21us; 31us; 33us; 36us; 38us; 40us; 42us; 44us; 46us; 54us; 57us; 60us; 62us; 64us; 66us; 74us; 76us; 84us; 86us; 94us; 96us; 98us; 100us; 102us; 104us; 107us; 109us; 111us; 114us; 116us; 124us; 126us; 128us; 130us; 132us; 134us; 136us; 138us; 146us; 148us; 150us; 152us; 160us; 168us; 176us; 184us; 192us; 200us; 202us; 204us; 206us; 208us; 210us; 212us; 214us; 216us; 218us; 221us; 224us; 226us; 228us; |]
-let _fsyacc_action_rows = 69
-let _fsyacc_actionTableElements = [|10us; 32768us; 0us; 2us; 2us; 13us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 0us; 49152us; 0us; 16385us; 0us; 16385us; 0us; 16385us; 2us; 32768us; 0us; 6us; 1us; 7us; 0us; 16386us; 10us; 32768us; 0us; 3us; 2us; 13us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 8us; 32768us; 0us; 9us; 1us; 10us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 0us; 16388us; 10us; 32768us; 0us; 4us; 2us; 13us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 0us; 16390us; 0us; 16391us; 1us; 32768us; 22us; 14us; 1us; 32768us; 11us; 15us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 6us; 16392us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 5us; 16393us; 3us; 44us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 5us; 16394us; 3us; 44us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 0us; 16395us; 0us; 16396us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 7us; 32768us; 9us; 23us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 7us; 32768us; 10us; 25us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 6us; 16397us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 1us; 32768us; 22us; 28us; 1us; 32768us; 3us; 29us; 1us; 32768us; 22us; 30us; 1us; 32768us; 5us; 31us; 4us; 32768us; 3us; 67us; 24us; 61us; 25us; 63us; 26us; 62us; 2us; 32768us; 4us; 33us; 23us; 66us; 1us; 32768us; 5us; 34us; 4us; 32768us; 3us; 67us; 24us; 61us; 25us; 63us; 26us; 62us; 2us; 32768us; 7us; 36us; 23us; 66us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 6us; 16398us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 0us; 16399us; 0us; 16400us; 0us; 16401us; 0us; 16402us; 0us; 16403us; 0us; 16404us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 7us; 32768us; 4us; 46us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 0us; 16405us; 1us; 32768us; 21us; 48us; 0us; 16406us; 2us; 16407us; 15us; 57us; 16us; 58us; 2us; 16408us; 15us; 57us; 16us; 58us; 0us; 16409us; 0us; 16410us; 6us; 16411us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 6us; 16412us; 11us; 59us; 12us; 60us; 13us; 55us; 14us; 56us; 15us; 57us; 16us; 58us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 8us; 32768us; 3us; 44us; 6us; 27us; 8us; 21us; 14us; 47us; 17us; 41us; 18us; 42us; 21us; 43us; 22us; 40us; 0us; 16413us; 0us; 16414us; 0us; 16415us; 1us; 16416us; 23us; 66us; 2us; 32768us; 4us; 68us; 23us; 66us; 4us; 32768us; 3us; 67us; 24us; 61us; 25us; 63us; 26us; 62us; 4us; 32768us; 3us; 67us; 24us; 61us; 25us; 63us; 26us; 62us; 0us; 16417us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 11us; 12us; 13us; 14us; 15us; 18us; 19us; 30us; 39us; 40us; 51us; 52us; 53us; 55us; 57us; 66us; 73us; 79us; 85us; 86us; 87us; 96us; 104us; 113us; 121us; 130us; 137us; 139us; 141us; 143us; 145us; 150us; 153us; 155us; 160us; 163us; 172us; 179us; 180us; 181us; 182us; 183us; 184us; 185us; 194us; 202us; 203us; 205us; 206us; 209us; 212us; 213us; 214us; 221us; 228us; 237us; 246us; 255us; 264us; 273us; 282us; 283us; 284us; 285us; 287us; 290us; 295us; 300us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 1us; 2us; 3us; 2us; 3us; 3us; 3us; 4us; 1us; 1us; 1us; 1us; 6us; 11us; 2us; 2us; 1us; 1us; 1us; 1us; 3us; 2us; 3us; 3us; 3us; 3us; 3us; 3us; 1us; 1us; 1us; 3us; 3us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 2us; 3us; 3us; 3us; 3us; 3us; 3us; 4us; 4us; 5us; 5us; 5us; 5us; 5us; 6us; 6us; 6us; 6us; 6us; 7us; 7us; 8us; 8us; 8us; 8us; 8us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; 16385us; 65535us; 65535us; 65535us; 16386us; 65535us; 65535us; 16388us; 65535us; 16390us; 16391us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16395us; 16396us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16399us; 16400us; 16401us; 16402us; 16403us; 16404us; 65535us; 65535us; 16405us; 65535us; 16406us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16413us; 16414us; 16415us; 65535us; 65535us; 65535us; 65535us; 16417us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 2us; 1us; 3us; 2us; 1us; 5us; 3us; 2us; 3us; 6us; 1us; 2us; 2us; 3us; 6us; 9us; 4us; 5us; 7us; 24us; 25us; 26us; 27us; 28us; 29us; 1us; 4us; 2us; 5us; 7us; 1us; 6us; 1us; 7us; 1us; 8us; 1us; 8us; 1us; 8us; 7us; 8us; 24us; 25us; 26us; 27us; 28us; 29us; 2us; 9us; 16us; 2us; 10us; 15us; 1us; 11us; 1us; 12us; 1us; 13us; 7us; 13us; 24us; 25us; 26us; 27us; 28us; 29us; 1us; 13us; 7us; 13us; 24us; 25us; 26us; 27us; 28us; 29us; 1us; 13us; 7us; 13us; 24us; 25us; 26us; 27us; 28us; 29us; 1us; 14us; 1us; 14us; 1us; 14us; 1us; 14us; 1us; 14us; 2us; 14us; 33us; 1us; 14us; 1us; 14us; 2us; 14us; 33us; 1us; 14us; 7us; 14us; 24us; 25us; 26us; 27us; 28us; 29us; 1us; 15us; 1us; 16us; 1us; 17us; 1us; 18us; 1us; 19us; 1us; 20us; 1us; 21us; 1us; 22us; 7us; 22us; 24us; 25us; 26us; 27us; 28us; 29us; 1us; 22us; 1us; 23us; 1us; 23us; 7us; 24us; 24us; 25us; 26us; 27us; 28us; 29us; 7us; 24us; 25us; 25us; 26us; 27us; 28us; 29us; 7us; 24us; 25us; 26us; 26us; 27us; 28us; 29us; 7us; 24us; 25us; 26us; 27us; 27us; 28us; 29us; 7us; 24us; 25us; 26us; 27us; 28us; 28us; 29us; 7us; 24us; 25us; 26us; 27us; 28us; 29us; 29us; 1us; 24us; 1us; 25us; 1us; 26us; 1us; 27us; 1us; 28us; 1us; 29us; 1us; 30us; 1us; 31us; 1us; 32us; 2us; 33us; 33us; 2us; 33us; 34us; 1us; 33us; 1us; 34us; 1us; 34us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 9us; 12us; 16us; 18us; 21us; 31us; 33us; 36us; 38us; 40us; 42us; 44us; 46us; 54us; 57us; 60us; 62us; 64us; 66us; 74us; 76us; 84us; 86us; 94us; 96us; 98us; 100us; 102us; 104us; 107us; 109us; 111us; 114us; 116us; 124us; 126us; 128us; 130us; 132us; 134us; 136us; 138us; 140us; 148us; 150us; 152us; 154us; 162us; 170us; 178us; 186us; 194us; 202us; 204us; 206us; 208us; 210us; 212us; 214us; 216us; 218us; 220us; 223us; 226us; 228us; 230us; |]
+let _fsyacc_action_rows = 70
+let _fsyacc_actionTableElements = [|11us; 32768us; 0us; 2us; 2us; 13us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 0us; 49152us; 0us; 16385us; 0us; 16385us; 0us; 16385us; 2us; 32768us; 0us; 6us; 1us; 7us; 0us; 16386us; 11us; 32768us; 0us; 3us; 2us; 13us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 8us; 32768us; 0us; 9us; 1us; 10us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 0us; 16388us; 11us; 32768us; 0us; 4us; 2us; 13us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 0us; 16390us; 0us; 16391us; 1us; 32768us; 23us; 14us; 1us; 32768us; 11us; 15us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 6us; 16392us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 6us; 16393us; 3us; 45us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 6us; 16394us; 3us; 45us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 0us; 16395us; 0us; 16396us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 7us; 32768us; 9us; 23us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 7us; 32768us; 10us; 25us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 6us; 16397us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 1us; 32768us; 23us; 28us; 1us; 32768us; 3us; 29us; 1us; 32768us; 23us; 30us; 1us; 32768us; 5us; 31us; 4us; 32768us; 3us; 68us; 25us; 62us; 26us; 64us; 27us; 63us; 2us; 32768us; 4us; 33us; 24us; 67us; 1us; 32768us; 5us; 34us; 4us; 32768us; 3us; 68us; 25us; 62us; 26us; 64us; 27us; 63us; 2us; 32768us; 7us; 36us; 24us; 67us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 6us; 16398us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 0us; 16399us; 0us; 16400us; 0us; 16401us; 0us; 16402us; 0us; 16403us; 0us; 16404us; 0us; 16405us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 7us; 32768us; 4us; 47us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 0us; 16406us; 1us; 32768us; 22us; 49us; 0us; 16407us; 2us; 16408us; 15us; 58us; 16us; 59us; 2us; 16409us; 15us; 58us; 16us; 59us; 0us; 16410us; 0us; 16411us; 6us; 16412us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 6us; 16413us; 11us; 60us; 12us; 61us; 13us; 56us; 14us; 57us; 15us; 58us; 16us; 59us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 9us; 32768us; 3us; 45us; 6us; 27us; 8us; 21us; 14us; 48us; 17us; 41us; 18us; 42us; 21us; 44us; 22us; 43us; 23us; 40us; 0us; 16414us; 0us; 16415us; 0us; 16416us; 1us; 16417us; 24us; 67us; 2us; 32768us; 4us; 69us; 24us; 67us; 4us; 32768us; 3us; 68us; 25us; 62us; 26us; 64us; 27us; 63us; 4us; 32768us; 3us; 68us; 25us; 62us; 26us; 64us; 27us; 63us; 0us; 16418us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 12us; 13us; 14us; 15us; 16us; 19us; 20us; 32us; 41us; 42us; 54us; 55us; 56us; 58us; 60us; 70us; 77us; 84us; 91us; 92us; 93us; 103us; 111us; 121us; 129us; 139us; 146us; 148us; 150us; 152us; 154us; 159us; 162us; 164us; 169us; 172us; 182us; 189us; 190us; 191us; 192us; 193us; 194us; 195us; 196us; 206us; 214us; 215us; 217us; 218us; 221us; 224us; 225us; 226us; 233us; 240us; 250us; 260us; 270us; 280us; 290us; 300us; 301us; 302us; 303us; 305us; 308us; 313us; 318us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 1us; 2us; 3us; 2us; 3us; 3us; 3us; 4us; 1us; 1us; 1us; 1us; 6us; 11us; 2us; 2us; 1us; 1us; 1us; 1us; 1us; 3us; 2us; 3us; 3us; 3us; 3us; 3us; 3us; 1us; 1us; 1us; 3us; 3us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 1us; 1us; 1us; 1us; 1us; 1us; 2us; 3us; 3us; 3us; 3us; 3us; 3us; 4us; 4us; 5us; 5us; 5us; 5us; 5us; 5us; 6us; 6us; 6us; 6us; 6us; 7us; 7us; 8us; 8us; 8us; 8us; 8us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 16385us; 65535us; 65535us; 65535us; 16386us; 65535us; 65535us; 16388us; 65535us; 16390us; 16391us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16395us; 16396us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16399us; 16400us; 16401us; 16402us; 16403us; 16404us; 16405us; 65535us; 65535us; 16406us; 65535us; 16407us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 65535us; 16414us; 16415us; 16416us; 65535us; 65535us; 65535us; 65535us; 16418us; |]
 let _fsyacc_reductions ()  =    [| 
-# 262 "NanoMLParser.fs"
+# 269 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : toplevel_decl list)) in
             Microsoft.FSharp.Core.Operators.box
@@ -268,141 +275,141 @@ let _fsyacc_reductions ()  =    [|
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_starttoplevel));
-# 271 "NanoMLParser.fs"
+# 278 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 40 "NanoMLParser.fsy"
+# 41 "../src/NanoML/NanoMLParser.fsy"
                                  [] 
                    )
-# 40 "NanoMLParser.fsy"
+# 41 "../src/NanoML/NanoMLParser.fsy"
                  : toplevel_decl list));
-# 281 "NanoMLParser.fs"
+# 288 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'def)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 41 "NanoMLParser.fsy"
+# 42 "../src/NanoML/NanoMLParser.fsy"
                                      [_1] 
                    )
-# 41 "NanoMLParser.fsy"
+# 42 "../src/NanoML/NanoMLParser.fsy"
                  : toplevel_decl list));
-# 292 "NanoMLParser.fs"
+# 299 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'def)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 42 "NanoMLParser.fsy"
+# 43 "../src/NanoML/NanoMLParser.fsy"
                                                 [_1] 
                    )
-# 42 "NanoMLParser.fsy"
+# 43 "../src/NanoML/NanoMLParser.fsy"
                  : toplevel_decl list));
-# 303 "NanoMLParser.fs"
+# 310 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 43 "NanoMLParser.fsy"
+# 44 "../src/NanoML/NanoMLParser.fsy"
                                       [Expr _1] 
                    )
-# 43 "NanoMLParser.fsy"
+# 44 "../src/NanoML/NanoMLParser.fsy"
                  : toplevel_decl list));
-# 314 "NanoMLParser.fs"
+# 321 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 44 "NanoMLParser.fsy"
+# 45 "../src/NanoML/NanoMLParser.fsy"
                                                  [Expr _1] 
                    )
-# 44 "NanoMLParser.fsy"
+# 45 "../src/NanoML/NanoMLParser.fsy"
                  : toplevel_decl list));
-# 325 "NanoMLParser.fs"
+# 332 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'def)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : toplevel_decl list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 45 "NanoMLParser.fsy"
+# 46 "../src/NanoML/NanoMLParser.fsy"
                                                      _1 :: _3 
                    )
-# 45 "NanoMLParser.fsy"
+# 46 "../src/NanoML/NanoMLParser.fsy"
                  : toplevel_decl list));
-# 337 "NanoMLParser.fs"
+# 344 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : toplevel_decl list)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 46 "NanoMLParser.fsy"
+# 47 "../src/NanoML/NanoMLParser.fsy"
                                                       (Expr _1) :: _3 
                    )
-# 46 "NanoMLParser.fsy"
+# 47 "../src/NanoML/NanoMLParser.fsy"
                  : toplevel_decl list));
-# 349 "NanoMLParser.fs"
+# 356 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 49 "NanoMLParser.fsy"
+# 50 "../src/NanoML/NanoMLParser.fsy"
                                                 LetBinding ((Name _2), _4) 
                    )
-# 49 "NanoMLParser.fsy"
+# 50 "../src/NanoML/NanoMLParser.fsy"
                  : 'def));
-# 361 "NanoMLParser.fs"
+# 368 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'non_app)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 53 "NanoMLParser.fsy"
+# 54 "../src/NanoML/NanoMLParser.fsy"
                                      _1 
                    )
-# 53 "NanoMLParser.fsy"
+# 54 "../src/NanoML/NanoMLParser.fsy"
                  : 'expr));
-# 372 "NanoMLParser.fs"
+# 379 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'app)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 54 "NanoMLParser.fsy"
+# 55 "../src/NanoML/NanoMLParser.fsy"
                                  _1 
                    )
-# 54 "NanoMLParser.fsy"
+# 55 "../src/NanoML/NanoMLParser.fsy"
                  : 'expr));
-# 383 "NanoMLParser.fs"
+# 390 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'arithmetic)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 55 "NanoMLParser.fsy"
+# 56 "../src/NanoML/NanoMLParser.fsy"
                                         _1 
                    )
-# 55 "NanoMLParser.fsy"
+# 56 "../src/NanoML/NanoMLParser.fsy"
                  : 'expr));
-# 394 "NanoMLParser.fs"
+# 401 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'cond)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 56 "NanoMLParser.fsy"
+# 57 "../src/NanoML/NanoMLParser.fsy"
                                   _1 
                    )
-# 56 "NanoMLParser.fsy"
+# 57 "../src/NanoML/NanoMLParser.fsy"
                  : 'expr));
-# 405 "NanoMLParser.fs"
+# 412 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
@@ -410,12 +417,12 @@ let _fsyacc_reductions ()  =    [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 57 "NanoMLParser.fsy"
+# 58 "../src/NanoML/NanoMLParser.fsy"
                                                          Cond (_2, _4, _6) 
                    )
-# 57 "NanoMLParser.fsy"
+# 58 "../src/NanoML/NanoMLParser.fsy"
                  : 'expr));
-# 418 "NanoMLParser.fs"
+# 425 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             let _4 = (let data = parseState.GetInput(4) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
@@ -425,226 +432,237 @@ let _fsyacc_reductions ()  =    [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 58 "NanoMLParser.fsy"
+# 59 "../src/NanoML/NanoMLParser.fsy"
                                                                                  Fun (Name _2, Name _4, _6, _9, _11) 
                    )
-# 58 "NanoMLParser.fsy"
+# 59 "../src/NanoML/NanoMLParser.fsy"
                  : 'expr));
-# 433 "NanoMLParser.fs"
+# 440 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'app)) in
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'non_app)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 62 "NanoMLParser.fsy"
+# 63 "../src/NanoML/NanoMLParser.fsy"
                                          Apply (_1, _2) 
                    )
-# 62 "NanoMLParser.fsy"
+# 63 "../src/NanoML/NanoMLParser.fsy"
                  : 'app));
-# 445 "NanoMLParser.fs"
+# 452 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'non_app)) in
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'non_app)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 63 "NanoMLParser.fsy"
+# 64 "../src/NanoML/NanoMLParser.fsy"
                                              Apply (_1, _2) 
                    )
-# 63 "NanoMLParser.fsy"
+# 64 "../src/NanoML/NanoMLParser.fsy"
                  : 'app));
-# 457 "NanoMLParser.fs"
+# 464 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : string)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 67 "NanoMLParser.fsy"
+# 68 "../src/NanoML/NanoMLParser.fsy"
                                    Var (Name _1) 
                    )
-# 67 "NanoMLParser.fsy"
+# 68 "../src/NanoML/NanoMLParser.fsy"
                  : 'non_app));
-# 468 "NanoMLParser.fs"
+# 475 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 68 "NanoMLParser.fsy"
+# 69 "../src/NanoML/NanoMLParser.fsy"
                                   Bool true 
                    )
-# 68 "NanoMLParser.fsy"
+# 69 "../src/NanoML/NanoMLParser.fsy"
                  : 'non_app));
-# 478 "NanoMLParser.fs"
+# 485 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 69 "NanoMLParser.fsy"
+# 70 "../src/NanoML/NanoMLParser.fsy"
                                    Bool false 
                    )
-# 69 "NanoMLParser.fsy"
+# 70 "../src/NanoML/NanoMLParser.fsy"
                  : 'non_app));
-# 488 "NanoMLParser.fs"
+# 495 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 70 "NanoMLParser.fsy"
+# 71 "../src/NanoML/NanoMLParser.fsy"
                                  Int _1 
                    )
-# 70 "NanoMLParser.fsy"
+# 71 "../src/NanoML/NanoMLParser.fsy"
                  : 'non_app));
-# 499 "NanoMLParser.fs"
+# 506 "..\src\NanoML\NanoMLParser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : float)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 72 "../src/NanoML/NanoMLParser.fsy"
+                                   Float _1 
+                   )
+# 72 "../src/NanoML/NanoMLParser.fsy"
+                 : 'non_app));
+# 517 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 71 "NanoMLParser.fsy"
+# 73 "../src/NanoML/NanoMLParser.fsy"
                                                 _2 
                    )
-# 71 "NanoMLParser.fsy"
+# 73 "../src/NanoML/NanoMLParser.fsy"
                  : 'non_app));
-# 510 "NanoMLParser.fs"
+# 528 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 74 "NanoMLParser.fsy"
+# 76 "../src/NanoML/NanoMLParser.fsy"
                                        Int (-_2) 
                    )
-# 74 "NanoMLParser.fsy"
+# 76 "../src/NanoML/NanoMLParser.fsy"
                  : 'arithmetic));
-# 521 "NanoMLParser.fs"
+# 539 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 75 "NanoMLParser.fsy"
+# 77 "../src/NanoML/NanoMLParser.fsy"
                                             Plus (_1, _3) 
                    )
-# 75 "NanoMLParser.fsy"
+# 77 "../src/NanoML/NanoMLParser.fsy"
                  : 'arithmetic));
-# 533 "NanoMLParser.fs"
+# 551 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 76 "NanoMLParser.fsy"
+# 78 "../src/NanoML/NanoMLParser.fsy"
                                              Minus (_1, _3) 
                    )
-# 76 "NanoMLParser.fsy"
+# 78 "../src/NanoML/NanoMLParser.fsy"
                  : 'arithmetic));
-# 545 "NanoMLParser.fs"
+# 563 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 77 "NanoMLParser.fsy"
+# 79 "../src/NanoML/NanoMLParser.fsy"
                                              Times(_1, _3) 
                    )
-# 77 "NanoMLParser.fsy"
+# 79 "../src/NanoML/NanoMLParser.fsy"
                  : 'arithmetic));
-# 557 "NanoMLParser.fs"
+# 575 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 78 "NanoMLParser.fsy"
+# 80 "../src/NanoML/NanoMLParser.fsy"
                                               Divide (_1, _3) 
                    )
-# 78 "NanoMLParser.fsy"
+# 80 "../src/NanoML/NanoMLParser.fsy"
                  : 'arithmetic));
-# 569 "NanoMLParser.fs"
+# 587 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 81 "NanoMLParser.fsy"
+# 83 "../src/NanoML/NanoMLParser.fsy"
                                              Equal (_1, _3) 
                    )
-# 81 "NanoMLParser.fsy"
+# 83 "../src/NanoML/NanoMLParser.fsy"
                  : 'cond));
-# 581 "NanoMLParser.fs"
+# 599 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'expr)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 82 "NanoMLParser.fsy"
+# 84 "../src/NanoML/NanoMLParser.fsy"
                                             Less (_1, _3) 
                    )
-# 82 "NanoMLParser.fsy"
+# 84 "../src/NanoML/NanoMLParser.fsy"
                  : 'cond));
-# 593 "NanoMLParser.fs"
+# 611 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 85 "NanoMLParser.fsy"
-                                   TBool 
+# 87 "../src/NanoML/NanoMLParser.fsy"
+                                   TyBool 
                    )
-# 85 "NanoMLParser.fsy"
+# 87 "../src/NanoML/NanoMLParser.fsy"
                  : 'ty));
-# 603 "NanoMLParser.fs"
+# 621 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 86 "NanoMLParser.fsy"
-                                  TInt 
+# 88 "../src/NanoML/NanoMLParser.fsy"
+                                  TyInt 
                    )
-# 86 "NanoMLParser.fsy"
+# 88 "../src/NanoML/NanoMLParser.fsy"
                  : 'ty));
-# 613 "NanoMLParser.fs"
+# 631 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 87 "NanoMLParser.fsy"
-                                    TFloat 
+# 89 "../src/NanoML/NanoMLParser.fsy"
+                                    TyFloat 
                    )
-# 87 "NanoMLParser.fsy"
+# 89 "../src/NanoML/NanoMLParser.fsy"
                  : 'ty));
-# 623 "NanoMLParser.fs"
+# 641 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'ty)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'ty)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 88 "NanoMLParser.fsy"
-                                          TFun (_1, _3) 
+# 90 "../src/NanoML/NanoMLParser.fsy"
+                                          TyFun (_1, _3) 
                    )
-# 88 "NanoMLParser.fsy"
+# 90 "../src/NanoML/NanoMLParser.fsy"
                  : 'ty));
-# 635 "NanoMLParser.fs"
+# 653 "..\src\NanoML\NanoMLParser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'ty)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 89 "NanoMLParser.fsy"
+# 91 "../src/NanoML/NanoMLParser.fsy"
                                               _2 
                    )
-# 89 "NanoMLParser.fsy"
+# 91 "../src/NanoML/NanoMLParser.fsy"
                  : 'ty));
 |]
-# 647 "NanoMLParser.fs"
+# 665 "..\src\NanoML\NanoMLParser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -663,7 +681,7 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
                               match parse_error_rich with 
                               | Some f -> f ctxt
                               | None -> parse_error ctxt.Message);
-    numTerminals = 30;
+    numTerminals = 31;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
 let toplevel lexer lexbuf : toplevel_decl list =

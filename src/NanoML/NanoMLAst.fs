@@ -10,18 +10,18 @@ type name = Name of string
 
 
 type ty =
-    | TInt
-    | TFloat
-    | TBool
-    | TFun of ty * ty (* function type t1 -> t2 *)
+    | TyInt
+    | TyFloat
+    | TyBool
+    | TyFun of ty * ty (* function type t1 -> t2 *)
     override ty.ToString() =
         let rec toStr precedence ty =
             let n, str =
                 match ty with
-                | TInt -> 2, "int"
-                | TFloat -> 2, "float"
-                | TBool -> 2, "bool"
-                | TFun(ty1, ty2) -> 1, toStr 1 ty1 + " -> " + toStr 0 ty2
+                | TyInt -> 2, "int"
+                | TyFloat -> 2, "float"
+                | TyBool -> 2, "bool"
+                | TyFun(ty1, ty2) -> 1, toStr 1 ty1 + " -> " + toStr 0 ty2
 
             if n > precedence then str else "(" + str + ")"
         toStr (-1) ty
