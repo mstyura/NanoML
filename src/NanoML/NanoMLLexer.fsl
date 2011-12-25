@@ -34,7 +34,7 @@ let ident id =
 }
 let digit = ['0' - '9']
 let letter = ['a' - 'z' 'A' - 'Z']
-let ident = letter (letter | digit | ['_'])*
+let ident = (letter | '_') (letter | digit | ['_'])*
 let newline = '\n' | '\r' '\n'
 let whitespace = [' ' '\t']
 let integer = digit+

@@ -9,6 +9,8 @@ exception TypeError of string
 
 let typeError msg = raise (TypeError msg)
 
+let inline randName() = System.Guid.NewGuid().ToString()
+
 
 let rec check ctx ty e =
     let ty' : texpr = typeOf ctx e
@@ -65,27 +67,30 @@ and typeOf ctx = function
         let e2texpr = typeOf ((name, e1texpr.Type) :: ctx) e2
         TLetIn (name, e1texpr, e2texpr, e2texpr.Type)
 
+let cleanName ((Name n) as name) =
+    if n = "_" then Name (randName())
+    else name
 
-let rec erasureLetIn ctx = function
+let rec erasure ctx = function
     | TLetIn (x, texpr1, texpr2, ty) ->
-        let name = Name <| System.Guid.NewGuid().ToString()
+        let name = Name <| randName()
         let ctx' = (name, TyFun(texpr1.Type, texpr2.Type)) :: ctx 
         let lambda = TFun(name, 
                           x,
                           texpr1.Type,
                           texpr2.Type, 
-                          erasureLetIn ctx' texpr2,
+                          erasure ctx' texpr2,
                           TyFun(texpr1.Type, texpr2.Type))
         
         TApply(lambda, texpr1, texpr2.Type)
     | TVar _ | TInt _ | TFloat _ | TBool _ as e -> e
-    | TTimes (e1, e2, ty) -> TTimes (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
-    | TPlus (e1, e2, ty) -> TPlus (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
-    | TMinus (e1, e2, ty) -> TMinus (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
-    | TDivide (e1, e2, ty) -> TDivide (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
-    | TEqual (e1, e2) -> TEqual (erasureLetIn ctx e1, erasureLetIn ctx e2)
-    | TLess (e1, e2) -> TLess (erasureLetIn ctx e1, erasureLetIn ctx e2)
-    | TCond (e1, e2, e3, ty) -> TCond (erasureLetIn ctx e1, erasureLetIn ctx e2, erasureLetIn ctx e3, ty)
-    | TFun (f, x, ty1, ty2, e, ty) -> TFun (f, x, ty1, ty2, erasureLetIn ctx e, ty)
-    | TApply (e1, e2, ty) -> TApply (erasureLetIn ctx e1, erasureLetIn ctx e2, ty)
+    | TTimes (e1, e2, ty) -> TTimes (erasure ctx e1, erasure ctx e2, ty)
+    | TPlus (e1, e2, ty) -> TPlus (erasure ctx e1, erasure ctx e2, ty)
+    | TMinus (e1, e2, ty) -> TMinus (erasure ctx e1, erasure ctx e2, ty)
+    | TDivide (e1, e2, ty) -> TDivide (erasure ctx e1, erasure ctx e2, ty)
+    | TEqual (e1, e2) -> TEqual (erasure ctx e1, erasure ctx e2)
+    | TLess (e1, e2) -> TLess (erasure ctx e1, erasure ctx e2)
+    | TCond (e1, e2, e3, ty) -> TCond (erasure ctx e1, erasure ctx e2, erasure ctx e3, ty)
+    | TFun (f, x, ty1, ty2, e, ty) -> TFun (cleanName f, x, ty1, ty2, erasure ctx e, ty)
+    | TApply (e1, e2, ty) -> TApply (erasure ctx e1, erasure ctx e2, ty)
     | _ -> failwith "Not implemented yet"

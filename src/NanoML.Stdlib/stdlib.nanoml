@@ -53,6 +53,25 @@ let fact_tr =
 		run n 1
 	end;;
 
+let pow =
+	fun f (n : int) : float -> float =>
+		fun g (val : float) : float =>
+			if n = 0 then 1.0
+			else val * f (n - 1) val
+		end
+	end;;
+
+let exp =
+	fun (x : float) : float =>
+		let loop = fun _ (acc : float) : int -> float =>
+			fun _ (n : int) : float =>
+				if n = 0 then 1.0
+				else loop (pown n x / fact n + acc) (n - 1)
+			end
+		end
+			in
+		loop 0.0 100
+	end
 (*
 
 let test =
