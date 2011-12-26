@@ -32,15 +32,16 @@ let inline dumpTAst (s : settings) (texpr : texpr) =
 
 let execCmd (s : settings) (ctx, env) = function
     | Expr e ->
-        let tast1 = TypeChecker.typeOf ctx e |> dumpTAst s
-        let tast = TypeChecker.erasure ctx tast1 |> dumpTAst s
+        let tast' = TypeChecker.typify ctx e |> dumpTAst s
+        let tast = TypeChecker.erasure ctx tast' |> dumpTAst s
         let frm = Emitter.emit tast |> dumpVmCode s
         let v = VirtualMachine.run frm env
-        (ctx, env), sprintf "val it : %s = %s" (string tast.Type) (string v)
+        let x = Name "it"
+        ((x, tast.Type) :: ctx, (x, ref v) :: env), sprintf "val %O : %s = %s" x (string tast.Type) (string v)
 
     | LetBinding (x, e) ->
-         let tast1 = TypeChecker.typeOf ctx e |> dumpTAst s
-         let tast = TypeChecker.erasure ctx tast1 |> dumpTAst s
+         let tast' = TypeChecker.typify ctx e |> dumpTAst s
+         let tast = TypeChecker.erasure ctx tast' |> dumpTAst s
          let frm = Emitter.emit tast |> dumpVmCode s
          let v = VirtualMachine.run frm env
          ((x, tast.Type) :: ctx, (x, ref v) :: env), sprintf "val %s : %s = %s" (string x) (string tast.Type) (string v)
@@ -104,7 +105,7 @@ let main (args : string array) =
                     let text = File.ReadAllText f
                     let lexbuf = LexBuffer<_>.FromString text
                     let cmds = Parser.toplevel Lexer.token lexbuf
-                    execCmds settings ce cmds) ([], []) !files
+                    execCmds settings ce cmds) NanoML.Language.Basics.initialContextAndEnv !files
         if not !nonInteractive then interactive settings ctx env
         0
     with

@@ -13,13 +13,13 @@ let inline randName() = Name <| System.Guid.NewGuid().ToString()
 
 
 let rec check ctx ty e =
-    let ty' : texpr = typeOf ctx e
+    let ty' : texpr = typify ctx e
     if ty'.Type <> ty then
         typeError (sprintf "%s has type %O but is used as if it has type %O" (string e) ty' ty)
     ty'
 
 and checkBinOp ctx e1 e2 types =
-    match (typeOf ctx e1, typeOf ctx e2) with
+    match (typify ctx e1, typify ctx e2) with
     | (texpr1 : texpr, texpr2 : texpr) when texpr1.Type = texpr2.Type ->
         if List.exists ((=) texpr1.Type) types then
             texpr1, texpr2, texpr1.Type
@@ -27,7 +27,7 @@ and checkBinOp ctx e1 e2 types =
             typeError (sprintf "Operator not defined for type: %O" texpr1.Type)
     | (ty1, ty2) -> typeError (sprintf "Operator can't be applied for different types %s and %s" (string ty1.Type) (string ty2.Type))
 
-and typeOf ctx = function
+and typify ctx = function
     | Var x -> match List.assoc x ctx with Some ty -> TVar (x, ty) | _ -> typeError (sprintf "Undefined variable: %O" x)
     | Int i -> TInt i
     | Float f -> TFloat f
@@ -47,7 +47,7 @@ and typeOf ctx = function
 
     | Cond (e1, e2, e3) ->
         let e1tast = check ctx TyBool e1
-        let e2tast = typeOf ctx e2
+        let e2tast = typify ctx e2
         let e3tast = check ctx e2tast.Type e3
         TCond(e1tast, e2tast, e3tast, e2tast.Type)
 
@@ -57,14 +57,14 @@ and typeOf ctx = function
         TFun(f, x, ty1, ty2, texpr, TyFun (ty1, ty2))
 
     | Apply (e1, e2) ->
-        let e1tast = typeOf ctx e1
+        let e1tast = typify ctx e1
         match e1tast.Type with
-        | TyFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; TApply(e1tast, typeOf ctx e2, ty2)
+        | TyFun (ty1, ty2) -> check ctx ty1 e2 |> ignore; TApply(e1tast, typify ctx e2, ty2)
         | ty -> typeError (sprintf "%s has type %s which is not a function and can't be applied" (string e1) (string ty))
 
     | LetIn (name, e1, e2) ->
-        let e1texpr = typeOf ctx e1
-        let e2texpr = typeOf ((name, e1texpr.Type) :: ctx) e2
+        let e1texpr = typify ctx e1
+        let e2texpr = typify ((name, e1texpr.Type) :: ctx) e2
         TLetIn (name, e1texpr, e2texpr, e2texpr.Type)
 
 let cleanName ((Name n) as name) =

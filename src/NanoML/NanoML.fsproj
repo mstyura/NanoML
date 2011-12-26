@@ -45,6 +45,7 @@
     <Compile Include="NanoMLParser.fs" />
     <Compile Include="NanoMLLexer.fs" />
     <Compile Include="VM.fs" />
+    <Compile Include="NanoMLLang.fs" />
     <Compile Include="Compile.fs" />
     <Compile Include="NanoML.fs" />
     <None Include="NanoMLLexer.fsl" />

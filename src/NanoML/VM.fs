@@ -44,6 +44,8 @@ and instr =
     | IEqualf
     | ILessi
     | ILessf
+    | IConvF2I
+    | IConvI2F
     | ILdVar of name // push variable on stack
     | ILdInt of int // push int constant on stack
     | ILdFloat of float // push float constant on stack
@@ -119,8 +121,15 @@ let eq = function
 let less = function
       MInt x :: MInt y :: s -> MBool (y < x) :: s
     | MFloat x :: MFloat y :: s -> MBool (y < x) :: s
-    | _ -> error "Float and Float or Int and Int expected"    
+    | _ -> error "Float and Float or Int and Int expected"
 
+let convf2i = function 
+    | MFloat x :: s -> MInt(int x) :: s
+    | _ -> error "Expected float on top of stack"
+
+let convi2f = function 
+    | MInt x :: s -> MFloat(float x) :: s
+    | _ -> error "Excepted int on top of stack"
 
 /// execute 
 let execute instr frms stck (envs : env list) =
@@ -135,6 +144,8 @@ let execute instr frms stck (envs : env list) =
     | ILdInt v -> frms, MInt v :: stck, envs
     | ILdFloat v -> frms, MFloat v :: stck, envs
     | ILdBool v -> frms, MBool v :: stck, envs
+    | IConvF2I -> frms, convf2i stck, envs
+    | IConvI2F -> frms, convi2f stck, envs
     | ILdClosure (f, x, frm) ->
         match envs with
         | env :: _ ->

@@ -62,16 +62,26 @@ let pow =
 	end;;
 
 let exp =
-	fun (x : float) : float =>
-		let loop = fun _ (acc : float) : int -> float =>
-			fun _ (n : int) : float =>
-				if n = 0 then 1.0
-				else loop (pown n x / fact n + acc) (n - 1)
-			end
-		end
+	(* stupid solution *)
+	fun _ (x : float) : float =>
+		let item = 
+				fun _ (x : float) : int -> float =>
+					fun _ (n : int) : float =>
+						pow n x / toFloat (fact n)
+					end
+				end
 			in
-		loop 0.0 100
-	end
+		let sum = 
+				fun loop (iter : int) : float -> float =>
+					fun _ (sum : float) : float =>
+						(* fact 12 < Int32.Max *)
+						if 12 < iter then sum
+						else loop (iter + 1) (sum + item x iter)
+					end
+				end
+			in
+		sum 1 1.0
+	end;;
 (*
 
 let test =
