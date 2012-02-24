@@ -71,7 +71,7 @@ let cleanName ((Name n) as name) =
     if n = "_" then randName()
     else name
 
-let rec erasure ctx = function
+let rec transform ctx = function
     | TLetIn (x, texpr1, texpr2, ty) ->
         let name = randName()
         let ctx' = (name, TyFun(texpr1.Type, texpr2.Type)) :: ctx 
@@ -79,18 +79,18 @@ let rec erasure ctx = function
                           x,
                           texpr1.Type,
                           texpr2.Type, 
-                          erasure ctx' texpr2,
+                          transform ctx' texpr2,
                           TyFun(texpr1.Type, texpr2.Type))
         
         TApply(lambda, texpr1, texpr2.Type)
     | TVar _ | TInt _ | TFloat _ | TBool _ as e -> e
-    | TTimes (e1, e2, ty) -> TTimes (erasure ctx e1, erasure ctx e2, ty)
-    | TPlus (e1, e2, ty) -> TPlus (erasure ctx e1, erasure ctx e2, ty)
-    | TMinus (e1, e2, ty) -> TMinus (erasure ctx e1, erasure ctx e2, ty)
-    | TDivide (e1, e2, ty) -> TDivide (erasure ctx e1, erasure ctx e2, ty)
-    | TEqual (e1, e2) -> TEqual (erasure ctx e1, erasure ctx e2)
-    | TLess (e1, e2) -> TLess (erasure ctx e1, erasure ctx e2)
-    | TCond (e1, e2, e3, ty) -> TCond (erasure ctx e1, erasure ctx e2, erasure ctx e3, ty)
-    | TFun (f, x, ty1, ty2, e, ty) -> TFun (cleanName f, x, ty1, ty2, erasure ctx e, ty)
-    | TApply (e1, e2, ty) -> TApply (erasure ctx e1, erasure ctx e2, ty)
+    | TTimes (e1, e2, ty) -> TTimes (transform ctx e1, transform ctx e2, ty)
+    | TPlus (e1, e2, ty) -> TPlus (transform ctx e1, transform ctx e2, ty)
+    | TMinus (e1, e2, ty) -> TMinus (transform ctx e1, transform ctx e2, ty)
+    | TDivide (e1, e2, ty) -> TDivide (transform ctx e1, transform ctx e2, ty)
+    | TEqual (e1, e2) -> TEqual (transform ctx e1, transform ctx e2)
+    | TLess (e1, e2) -> TLess (transform ctx e1, transform ctx e2)
+    | TCond (e1, e2, e3, ty) -> TCond (transform ctx e1, transform ctx e2, transform ctx e3, ty)
+    | TFun (f, x, ty1, ty2, e, ty) -> TFun (cleanName f, x, ty1, ty2, transform ctx e, ty)
+    | TApply (e1, e2, ty) -> TApply (transform ctx e1, transform ctx e2, ty)
     | _ -> failwith "Not implemented yet"

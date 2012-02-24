@@ -46,22 +46,18 @@ and instr =
     | ILessf
     | IConvF2I
     | IConvI2F
-    | ILdVar of name // push variable on stack
-    | ILdInt of int // push int constant on stack
-    | ILdFloat of float // push float constant on stack
-    | ILdBool of bool // push booleans constant on stack
-    | ILdClosure of name * name * frame // push closure on stack
+    | ILdVar of name
+    | ILdInt of int
+    | ILdFloat of float
+    | ILdBool of bool
+    | ILdClosure of name * name * frame
     | IBranch of frame * frame
     | ICall 
     | IPopEnv
 
 
 let frame2string (frm : frame) =
-    let rec loop frm =
-        match frm with
-        | h :: t -> sprintf "%A" h + "\n" + loop t
-        | [] -> ""
-    loop frm 
+    List.fold (fun res instr -> res + string instr + "\n") "" frm
 
 
 let error msg = raise (RuntimeError msg)
@@ -146,11 +142,11 @@ let execute instr frms stck (envs : env list) =
     | ILdBool v -> frms, MBool v :: stck, envs
     | IConvF2I -> frms, convf2i stck, envs
     | IConvI2F -> frms, convi2f stck, envs
-    | ILdClosure (f, x, frm) ->
+    | ILdClosure (funName, param, code) ->
         match envs with
         | env :: _ ->
             let c' = ref Unchecked.defaultof<mvalue>
-            let c = MClosure (x, frm, (f, c') :: env)
+            let c = MClosure (param, code, (funName, c') :: env)
             c' := c
             frms, c :: stck, envs
         | [] -> error "no environment for a closure"
@@ -160,8 +156,8 @@ let execute instr frms stck (envs : env list) =
         (if b then f1 else f2) :: frms, stck', envs
 
     | ICall ->
-        let x, frm, env, v, stck' = popApp stck
-        frm :: frms, stck', ((x, ref v) :: env) :: envs
+        let argName, code, env, arg, stck' = popApp stck
+        code :: frms, stck', ((argName, ref arg) :: env) :: envs
 
     | IPopEnv ->
          match envs with

@@ -68,23 +68,3 @@ type expr =
 type toplevel_decl =
     | Expr of expr
     | LetBinding of name * expr
-
-(*
-
-let rec subst s = function
-    | Var x as e -> match List.assoc x s with Some v -> v | _ -> e
-    | (Int _ | Bool _ | Float _) as e -> e
-    | Times (e1, e2) -> Times(subst s e1, subst s e2)
-    | Plus (e1, e2) -> Plus(subst s e1, subst s e2)
-    | Minus (e1, e2) -> Minus (subst s e1, subst s e2)
-    | Divide (e1, e2) -> Divide(subst s e1, subst s e2)
-    | Equal (e1, e2) -> Equal (subst s e1, subst s e2)
-    | Less (e1, e2) -> Less (subst s e1, subst s e2)
-    | Cond (e1, e2, e3) -> Cond (subst s e1, subst s e2, subst s e3)
-    | Fun (f, x, tyIn, tyOut, e) ->
-        let s' = s |> List.removeAssoc x |> List.removeAssoc f
-        Fun(f, x, tyIn, tyOut, subst s' e)
-    | Apply (e1, e2) -> Apply (subst s e1, subst s e2)
-    | LetIn (var, e1, e2) -> LetIn(var, e1, subst ((var, e1) :: s) e2)
-
-*)

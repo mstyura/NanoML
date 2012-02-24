@@ -10,12 +10,11 @@ open System.IO
 
 type context = (name * ty) list
 
-type env = (name * VirtualMachine.mvalue) list
-
-
 type settings = { DumpDeclarations : bool
                   DumpVMCode : bool
-                  DumpTAst : bool }
+                  DumpTAst : bool
+                  DumpContext : bool
+                  DumpEnv : bool }
 
 let inline dumpVmCode (s : settings) (frm : VirtualMachine.frame) =
     if s.DumpVMCode then
@@ -23,28 +22,31 @@ let inline dumpVmCode (s : settings) (frm : VirtualMachine.frame) =
         printfn "%s" (VirtualMachine.frame2string frm)
     frm
 
-let inline dumpTAst (s : settings) (texpr : texpr) = 
+let inline dumpTAst (s : settings) comment (texpr : texpr) = 
     if s.DumpTAst then
-        printfn "\ndump typed abstract syntax tree:"
+        printfn "\n%s:" comment
         printfn "%A" texpr
     texpr
-   
 
-let execCmd (s : settings) (ctx, env) = function
-    | Expr e ->
-        let tast' = TypeChecker.typify ctx e |> dumpTAst s
-        let tast = TypeChecker.erasure ctx tast' |> dumpTAst s
-        let frm = Emitter.emit tast |> dumpVmCode s
-        let v = VirtualMachine.run frm env
-        let x = Name "it"
-        ((x, tast.Type) :: ctx, (x, ref v) :: env), sprintf "val %O : %s = %s" x (string tast.Type) (string v)
+let inline dumpContext (s : settings) (ctx : context) =
+    if s.DumpContext then
+        printfn "\ndump context:"
+        printfn "%A" ctx
+    ctx
 
-    | LetBinding (x, e) ->
-         let tast' = TypeChecker.typify ctx e |> dumpTAst s
-         let tast = TypeChecker.erasure ctx tast' |> dumpTAst s
-         let frm = Emitter.emit tast |> dumpVmCode s
-         let v = VirtualMachine.run frm env
-         ((x, tast.Type) :: ctx, (x, ref v) :: env), sprintf "val %s : %s = %s" (string x) (string tast.Type) (string v)
+let inline dumpEnv (s : settings) (env : VirtualMachine.env) =
+    if s.DumpEnv then
+        printfn "\ndump environment:"
+        printfn "%A" env
+    env
+
+let execCmd (s : settings) (ctx, env) expr = 
+    let name, e = match expr with Expr e -> Name "it", e | LetBinding (x, e) -> x, e
+    let tast' = TypeChecker.typify ctx e |> dumpTAst s "dump typed abstract syntax tree"
+    let tast = TypeChecker.transform ctx tast' |> dumpTAst s "dump typed and transforment abstract syntax tree"
+    let frm = Emitter.emit tast |> dumpVmCode s
+    let v = VirtualMachine.run frm env
+    ((name, tast.Type) :: ctx, (name, ref v) :: env), sprintf "val %O : %s = %s" name (string tast.Type) (string v)
 
 
 let execCmds (s : settings) ce cmds =
@@ -70,9 +72,9 @@ let interactive (settings : settings) ctx env =
                 printf "NanoML> "
                 let str = System.Console.ReadLine()
                 let decls = Parser.toplevel Lexer.token (LexBuffer<_>.FromString str) |> dumpDeclarations settings
-                let (ctx, env) = execCmds settings (!globalCtx, !globalEnv) decls
-                globalCtx := ctx
-                globalEnv := env
+                let (ctx : context, env : VirtualMachine.env) = execCmds settings (!globalCtx, !globalEnv) decls
+                globalCtx := ctx |> dumpContext settings
+                globalEnv := env |> dumpEnv settings
                 ()
             with
                 | TypeChecker.TypeError msg -> printfn "Type error: %s" msg
@@ -88,18 +90,23 @@ let main (args : string array) =
     let dumpDecl = ref false
     let dumpVmCode = ref false
     let dumpTAst = ref false
+    let dumpContext = ref false
+    let dumpEnv = ref false
     let files = ref []
     ArgParser.Parse 
         ([ArgInfo("-n", ArgType.Set nonInteractive , "Non interactive run")
           ArgInfo("--DumpDecl", ArgType.Set dumpDecl, "Dump delcarations")
           ArgInfo("--DumpVMCode", ArgType.Set dumpVmCode, "Dump virtual machine code")
-          ArgInfo("--DumpTAst", ArgType.Set dumpTAst, "Dump typed AST")],
+          ArgInfo("--DumpTAst", ArgType.Set dumpTAst, "Dump typed AST")
+          ArgInfo("--DumpCtx", ArgType.Set dumpContext, "Dump context (Attention: printing may cycle when object graph has cycles)")
+          ArgInfo("--DumpEnv", ArgType.Set dumpEnv, "Dump environment")],
          (fun f -> files := f :: !files),
-         "Usage: nanoml [-n] [file] ...")
+         "Usage: nanoml [-n] [other options] [file] ...")
     
     try
-        let settings = { DumpDeclarations = !dumpDecl; DumpVMCode = !dumpVmCode; DumpTAst = !dumpTAst }
-        let ctx, env =
+        let settings = { DumpDeclarations = !dumpDecl; DumpVMCode = !dumpVmCode; 
+                         DumpTAst = !dumpTAst; DumpContext = !dumpContext; DumpEnv = !dumpEnv }
+        let (ctx : context), env =
             List.fold
                 (fun ce f ->
                     let text = File.ReadAllText f

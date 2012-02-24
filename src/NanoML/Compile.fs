@@ -45,7 +45,7 @@ let rec emit = function
     | TDivide (e1, e2, ty) -> (emit e1) @ (emit e2) @ [div ty]
     | TEqual (e1, e2) -> (emit e1) @ (emit e2) @ [eq e1.Type]
     | TLess (e1, e2) -> (emit e1) @ (emit e2) @ [less e1.Type]
-    | TFun (f, x, _, _, e, _) -> [ILdClosure (f, x, emit e @ [IPopEnv])]
+    | TFun (f, arg, _, _, e, _) -> [ILdClosure (f, arg, emit e @ [IPopEnv])]
     | TCond (e1, e2, e3, _) -> (emit e1) @ [IBranch (emit e2, emit e3)]
     | TApply (e1, e2, _) -> (emit e1) @ (emit e2) @ [ICall]
     | astNode -> failwithf "Not valid node for emitter: %A" astNode

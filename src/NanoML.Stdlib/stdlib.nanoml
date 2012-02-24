@@ -1,10 +1,12 @@
 ﻿let pi = 3.141592654;;
 let e = 2.718281828;;
 
+let not = fun _ (b : bool) : bool => if b then false else true end;;
+
 let fact = 
-	fun e (n : int) : int =>
-		if n = 1 then 1
-		else n * e (n - 1)
+	fun f (n : int) : int =>
+		if n = 0 then 1
+		else n * f (n - 1)
 	end;;
 
 let sqr =
@@ -81,6 +83,27 @@ let exp =
 				end
 			in
 		sum 1 1.0
+	end;;
+
+let incr =
+	fun _ (x : int) : int =>
+		x + 1
+	end;;
+
+(* generate Church number *)
+let funpow = 
+	fun funpow (n : int) : (int -> int) -> int -> int =>
+		fun _ (f : int -> int) : int -> int =>
+			fun _ (x : int) : int =>
+				if n = 0 then x
+				else funpow (n-1) f (f x)
+			end
+		end
+	end;;
+
+let defrock =
+	fun _ (n : (int -> int) -> int -> int) : int =>
+		n incr 0
 	end;;
 (*
 

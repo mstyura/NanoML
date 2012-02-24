@@ -22,7 +22,8 @@ type texpr =
         | TVar (_, ty) | TTimes (_, _, ty) | TPlus (_, _, ty) | TMinus (_, _, ty)
         | TDivide (_, _, ty) | TCond (_, _, _, ty) | TFun (_, _, _, _, _, ty) 
         | TApply (_, _, ty) | TLetIn (_, _, _, ty) -> ty
-        | TInt _ -> TyInt | TFloat _ -> TyFloat 
+        | TInt _ -> TyInt 
+        | TFloat _ -> TyFloat 
         | TBool _ | TEqual _ | TLess _ -> TyBool
 
 
